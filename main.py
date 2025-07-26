@@ -162,7 +162,7 @@ class InventorAI:
         return lbl
 
     def _create_footer(self):
-        footer_text = "Inventor AI Gene |Admin Panel"
+        footer_text = "Inventor AI Gene | Admin Panel"
         lbl_footer = tk.Label(self.root, text=footer_text, font=FONT_FOOTER, bg=FOOTER_BG_COLOR, fg=TITLE_FG_COLOR)
         lbl_footer.pack(side=tk.BOTTOM, fill=tk.X)
 
