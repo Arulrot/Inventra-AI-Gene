@@ -13,7 +13,7 @@ chk_print = 0
 # Tkinter variables
 root = Tk()
 root.geometry("1350x700+110+80")
-root.title("Inventory Management System ")
+root.title("Inventa AI Gene ")
 root.resizable(False, False)
 root.config(bg="white")
 
@@ -65,7 +65,7 @@ try:
 except:
     icon_title = None
 
-title = Label(root, text="Inventory Management System", image=icon_title, compound=LEFT,
+title = Label(root, text="Inventa AI Gene", image=icon_title, compound=LEFT,
               font=("times new roman", 40, "bold"), bg="#010c48", fg="white", anchor="w", padx=20)
 title.place(x=0, y=0, relwidth=1, height=70)
 
@@ -74,12 +74,12 @@ btn_logout = Button(root, text="Logout", command=lambda: logout(), font=("times 
 btn_logout.place(x=1150, y=10, height=50, width=150)
 
 lbl_clock = Label(root,
-                  text="Welcome to Inventory Management System\t\t Date: DD:MM:YYYY\t\t Time: HH:MM:SS",
+                  text="Welcome to Inventa AI Gene\t\t Date: DD:MM:YYYY\t\t Time: HH:MM:SS",
                   font=("times new roman", 15), bg="#4d636d", fg="white")
 lbl_clock.place(x=0, y=70, relwidth=1, height=30)
 
 lbl_footer = Label(root,
-                   text="IMS-Inventory Management System ",
+                   text="IMS-Inventa AI Gene ",
                    font=("times new roman", 10), bg="#4d636d", fg="white")
 lbl_footer.pack(side=BOTTOM, fill=X)
 
@@ -461,7 +461,7 @@ def clear_all():
 def update_date_time():
     time_ = time.strftime("%I:%M:%S")
     date_ = time.strftime("%d-%m-%Y")
-    lbl_clock.config(text=f"Welcome to Inventory Management System\t\t Date: {str(date_)}\t\t Time: {str(time_)}")
+    lbl_clock.config(text=f"Welcome to Inventa AI Gene\t\t Date: {str(date_)}\t\t Time: {str(time_)}")
     lbl_clock.after(1000, update_date_time)
 
 def print_bill():

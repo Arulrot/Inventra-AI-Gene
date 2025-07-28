@@ -84,7 +84,7 @@ class InventorAI:
         self.update_clock()
 
     def setup_main_window(self):
-        self.root.title("Inventor AI Gene | Admin Dashboard")
+        self.root.title("Inventra AI Gene | Admin Dashboard")
         self.root.geometry("1350x700+110+80")
         self.root.resizable(False, False)
         self.root.config(bg=BG_COLOR)
@@ -162,7 +162,7 @@ class InventorAI:
         return lbl
 
     def _create_footer(self):
-        footer_text = "Inventor AI Gene | Admin Panel"
+        footer_text = "Inventra AI Gene | Admin Panel"
         lbl_footer = tk.Label(self.root, text=footer_text, font=FONT_FOOTER, bg=FOOTER_BG_COLOR, fg=TITLE_FG_COLOR)
         lbl_footer.pack(side=tk.BOTTOM, fill=tk.X)
 
