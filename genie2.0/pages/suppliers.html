@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers - InventAI Gene Pro</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="suppliers-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <h1><i class="fas fa-rocket"></i> InventAI Gene Pro</h1>
+        </div>
+        <div class="header-right">
+            <span id="currentTime"></span>
+            <span class="user-info"><i class="fas fa-user"></i> Admin</span>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <ul class="nav-menu">
+            <li><a href="../index.html" class="nav-link">
+                <i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="products.html" class="nav-link">
+                <i class="fas fa-box"></i> Products</a></li>
+            <li><a href="suppliers.html" class="nav-link active">
+                <i class="fas fa-store"></i> Suppliers</a></li>
+            <li><a href="categories.html" class="nav-link">
+                <i class="fas fa-folder"></i> Categories</a></li>
+            <li><a href="ai-genie.html" class="nav-link">
+                <i class="fas fa-magic"></i> AI Genie</a></li>
+            <li><a href="analytics.html" class="nav-link">
+                <i class="fas fa-chart-bar"></i> Analytics</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1><i class="fas fa-store"></i> Supplier Management</h1>
+                <p>Manage your supplier network and partnerships</p>
+            </div>
+            <div class="header-actions">
+                <button id="addSupplierBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New Supplier
+                </button>
+                <button id="importSuppliersBtn" class="btn btn-secondary">
+                    <i class="fas fa-upload"></i> Import Suppliers
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="supplierSearch" placeholder="Search suppliers by name, company, email, or phone...">
+            </div>
+        </div>
+
+        <!-- Supplier Modal -->
+        <div id="supplierModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-store"></i> <span id="modalTitle">Add New Supplier</span></h3>
+                    <button class="close-btn" onclick="closeSupplierModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="supplierForm" class="supplier-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="supplierId">Supplier ID*</label>
+                                <div class="input-group">
+                                    <input type="text" id="supplierId" readonly>
+                                    <button type="button" id="generateSupplierIdBtn" class="btn-icon">
+                                        <i class="fas fa-sync"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierName">Supplier Name*</label>
+                                <input type="text" id="supplierName" placeholder="Enter supplier name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="companyName">Company Name</label>
+                                <input type="text" id="companyName" placeholder="Enter company name">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactPerson">Contact Person*</label>
+                                <input type="text" id="contactPerson" placeholder="Enter contact person" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone Number*</label>
+                                <input type="tel" id="phone" placeholder="+1 (555) 000-0000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" placeholder="supplier@company.com">
+                            </div>
+                        </div>
+
+                        <div class="form-row full-width">
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <textarea id="address" rows="3" placeholder="Enter full address"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="rating">Rating</label>
+                                <select id="rating">
+                                    <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
+                                    <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
+                                    <option value="3">⭐⭐⭐ (3 Stars)</option>
+                                    <option value="2">⭐⭐ (2 Stars)</option>
+                                    <option value="1">⭐ (1 Star)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select id="status">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    <option value="Pending">Pending</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="saveSupplierBtn" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Supplier
+                    </button>
+                    <button type="button" id="updateSupplierBtn" class="btn btn-success" style="display: none;">
+                        <i class="fas fa-edit"></i> Update Supplier
+                    </button>
+                    <button type="button" onclick="closeSupplierModal()" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suppliers Table -->
+        <div class="table-section">
+            <div class="table-header">
+                <h3><i class="fas fa-list"></i> Suppliers Directory</h3>
+                <div class="table-info">
+                    <span id="totalSuppliersCount">0 suppliers</span>
+                    <span id="activeSuppliersCount">0 active</span>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table id="suppliersTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="id">ID <i class="fas fa-sort"></i></th>
+                            <th data-sort="name">Name <i class="fas fa-sort"></i></th>
+                            <th data-sort="company">Company <i class="fas fa-sort"></i></th>
+                            <th data-sort="contactPerson">Contact Person <i class="fas fa-sort"></i></th>
+                            <th data-sort="phone">Phone <i class="fas fa-sort"></i></th>
+                            <th data-sort="email">Email <i class="fas fa-sort"></i></th>
+                            <th data-sort="rating">Rating <i class="fas fa-sort"></i></th>
+                            <th data-sort="status">Status <i class="fas fa-sort"></i></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Status Bar -->
+    <footer class="status-bar">
+        <div class="status-left">
+            <span class="status-item">
+                <i class="fas fa-circle" style="color: #4caf50;"></i>
+                Suppliers Module Active
+            </span>
+        </div>
+        <div class="status-right">
+            <span id="lastUpdated">Last updated: Never</span>
+        </div>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+    <script src="../js/common.js"></script>
+    <script src="../js/suppliers.js"></script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - InventAI Gene Pro</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="products-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <h1><i class="fas fa-rocket"></i> InventAI Gene Pro</h1>
+        </div>
+        <div class="header-right">
+            <span id="currentTime"></span>
+            <span class="user-info"><i class="fas fa-user"></i> Admin</span>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <ul class="nav-menu">
+            <li><a href="../index.html" class="nav-link">
+                <i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="products.html" class="nav-link active">
+                <i class="fas fa-box"></i> Products</a></li>
+            <li><a href="suppliers.html" class="nav-link">
+                <i class="fas fa-store"></i> Suppliers</a></li>
+            <li><a href="categories.html" class="nav-link">
+                <i class="fas fa-folder"></i> Categories</a></li>
+            <li><a href="ai-genie.html" class="nav-link">
+                <i class="fas fa-magic"></i> AI Genie</a></li>
+            <li><a href="analytics.html" class="nav-link">
+                <i class="fas fa-chart-bar"></i> Analytics</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1><i class="fas fa-box"></i> Product Management</h1>
+                <p>Manage your inventory with intelligent stock control</p>
+            </div>
+            <div class="header-actions">
+                <button id="addProductBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New Product
+                </button>
+                <button id="importProductsBtn" class="btn btn-secondary">
+                    <i class="fas fa-upload"></i> Import Products
+                </button>
+                <button id="exportProductsBtn" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Export Products
+                </button>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-section">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="productSearch" placeholder="Search products by name, brand, category, or ID...">
+            </div>
+            <div class="filter-controls">
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Men">Men</option>
+                    <option value="Women">Women</option>
+                    <option value="Kids">Kids</option>
+                    <option value="Furniture">Furniture</option>
+                    <option value="Sports">Sports</option>
+                </select>
+                <select id="stockFilter">
+                    <option value="">All Stock Status</option>
+                    <option value="in-stock">In Stock</option>
+                    <option value="low-stock">Low Stock</option>
+                    <option value="out-of-stock">Out of Stock</option>
+                </select>
+                <select id="supplierFilter">
+                    <option value="">All Suppliers</option>
+                </select>
+                <button id="clearFiltersBtn" class="btn btn-outline">Clear Filters</button>
+            </div>
+        </div>
+
+        <!-- Product Form Modal -->
+        <div id="productModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-box"></i> <span id="modalTitle">Add New Product</span></h3>
+                    <button class="close-btn" onclick="closeProductModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm" class="product-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="productId">Product ID*</label>
+                                <div class="input-group">
+                                    <input type="text" id="productId" readonly>
+                                    <button type="button" id="generateIdBtn" class="btn-icon">
+                                        <i class="fas fa-sync"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="productName">Product Name*</label>
+                                <input type="text" id="productName" placeholder="Enter product name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="brand">Brand</label>
+                                <input type="text" id="brand" placeholder="Enter brand name">
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category*</label>
+                                <select id="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Men">Men</option>
+                                    <option value="Women">Women</option>
+                                    <option value="Kids">Kids</option>
+                                    <option value="Furniture">Furniture</option>
+                                    <option value="Sports">Sports</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="supplier">Supplier*</label>
+                                <select id="supplier" required>
+                                    <option value="">Select Supplier</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sellingPrice">Selling Price*</label>
+                                <div class="input-group">
+                                    <span class="input-prefix">$</span>
+                                    <input type="number" id="sellingPrice" step="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="quantity">Current Quantity*</label>
+                                <input type="number" id="quantity" placeholder="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="minStock">Minimum Stock*</label>
+                                <input type="number" id="minStock" placeholder="0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiryDate">Expiry Date</label>
+                                <input type="date" id="expiryDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="addedDate">Added Date*</label>
+                                <input type="date" id="addedDate" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row full-width">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" rows="3" placeholder="Product description (optional)"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="saveProductBtn" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Product
+                    </button>
+                    <button type="button" id="updateProductBtn" class="btn btn-success" style="display: none;">
+                        <i class="fas fa-edit"></i> Update Product
+                    </button>
+                    <button type="button" onclick="closeProductModal()" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="table-section">
+            <div class="table-header">
+                <h3><i class="fas fa-list"></i> Products Inventory</h3>
+                <div class="table-info">
+                    <span id="totalProductsCount">0 products</span>
+                    <span id="lowStockCount">0 low stock</span>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table id="productsTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="id">ID <i class="fas fa-sort"></i></th>
+                            <th data-sort="name">Name <i class="fas fa-sort"></i></th>
+                            <th data-sort="brand">Brand <i class="fas fa-sort"></i></th>
+                            <th data-sort="category">Category <i class="fas fa-sort"></i></th>
+                            <th data-sort="supplier">Supplier <i class="fas fa-sort"></i></th>
+                            <th data-sort="price">Price <i class="fas fa-sort"></i></th>
+                            <th data-sort="quantity">Quantity <i class="fas fa-sort"></i></th>
+                            <th data-sort="minStock">Min Stock <i class="fas fa-sort"></i></th>
+                            <th data-sort="status">Status <i class="fas fa-sort"></i></th>
+                            <th data-sort="addedDate">Added Date <i class="fas fa-sort"></i></th>
+                            <th data-sort="expiryDate">Expiry Date <i class="fas fa-sort"></i></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button id="prevPage" class="btn btn-outline">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <span id="pageInfo">Page 1 of 1</span>
+                <button id="nextPage" class="btn btn-outline">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bulk Actions -->
+        <div id="bulkActions" class="bulk-actions" style="display: none;">
+            <div class="bulk-info">
+                <span id="selectedCount">0 items selected</span>
+            </div>
+            <div class="bulk-buttons">
+                <button id="bulkDeleteBtn" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Delete Selected
+                </button>
+                <button id="bulkExportBtn" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Export Selected
+                </button>
+                <button id="clearSelectionBtn" class="btn btn-outline">
+                    Clear Selection
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Status Bar -->
+    <footer class="status-bar">
+        <div class="status-left">
+            <span class="status-item">
+                <i class="fas fa-circle" style="color: #4caf50;"></i>
+                Products Module Active
+            </span>
+        </div>
+        <div class="status-right">
+            <span id="lastUpdated">Last updated: Never</span>
+        </div>
+    </footer>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Scripts -->
+    <script src="../js/common.js"></script>
+    <script src="../js/products.js"></script>
+</body>
+</html>

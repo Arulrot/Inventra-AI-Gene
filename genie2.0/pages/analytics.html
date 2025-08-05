@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - InventAI Gene Pro</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="analytics-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <h1><i class="fas fa-rocket"></i> InventAI Gene Pro</h1>
+        </div>
+        <div class="header-right">
+            <span id="currentTime"></span>
+            <span class="user-info"><i class="fas fa-user"></i> Admin</span>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <ul class="nav-menu">
+            <li><a href="../index.html" class="nav-link">
+                <i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="products.html" class="nav-link">
+                <i class="fas fa-box"></i> Products</a></li>
+            <li><a href="suppliers.html" class="nav-link">
+                <i class="fas fa-store"></i> Suppliers</a></li>
+            <li><a href="categories.html" class="nav-link">
+                <i class="fas fa-folder"></i> Categories</a></li>
+            <li><a href="ai-genie.html" class="nav-link">
+                <i class="fas fa-magic"></i> AI Genie</a></li>
+            <li><a href="analytics.html" class="nav-link active">
+                <i class="fas fa-chart-bar"></i> Analytics</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1><i class="fas fa-chart-bar"></i> Advanced Analytics</h1>
+                <p>AI-powered insights for data-driven decisions</p>
+            </div>
+            <div class="header-actions">
+                <select id="timeRangeSelector" class="select-input">
+                    <option value="7">Last 7 days</option>
+                    <option value="30" selected>Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                    <option value="365">Last year</option>
+                </select>
+                <button id="exportReportBtn" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Export Report
+                </button>
+                <button id="refreshAnalyticsBtn" class="btn btn-primary">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Analytics Tabs -->
+        <div class="analytics-tabs">
+            <div class="tab-nav">
+                <button class="tab-button active" data-tab="predictive">
+                    <i class="fas fa-crystal-ball"></i> Predictive Analysis
+                </button>
+                <button class="tab-button" data-tab="descriptive">
+                    <i class="fas fa-chart-pie"></i> Descriptive Analysis
+                </button>
+                <button class="tab-button" data-tab="diagnostic">
+                    <i class="fas fa-stethoscope"></i> Diagnostic Analysis
+                </button>
+            </div>
+
+            <!-- Predictive Analysis Tab -->
+            <div id="predictiveTab" class="tab-content active">
+                <div class="analytics-grid">
+                    <!-- Sales Forecast -->
+                    <div class="analytics-card full-width">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line"></i> Sales Forecast (Next 30 Days)</h3>
+                            <div class="card-controls">
+                                <button id="forecastSettingsBtn" class="btn btn-sm btn-outline">
+                                    <i class="fas fa-cog"></i> Settings
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="salesForecastChart" width="800" height="300"></canvas>
+                            <div class="forecast-summary">
+                                <div class="summary-item">
+                                    <span class="label">Predicted Growth:</span>
+                                    <span class="value positive" id="predictedGrowth">+25.3%</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Confidence Level:</span>
+                                    <span class="value" id="confidenceLevel">87%</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Next Peak:</span>
+                                    <span class="value" id="nextPeak">Week 3</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Demand Prediction -->
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-arrows-alt"></i> Demand Prediction</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="demand-predictions">
+                                <div class="prediction-item">
+                                    <div class="product-info">
+                                        <span class="product-name">Wireless Mouse</span>
+                                        <span class="category">Electronics</span>
+                                    </div>
+                                    <div class="prediction-value high">
+                                        <i class="fas fa-arrow-up"></i> +40%
+                                    </div>
+                                </div>
+                                <div class="prediction-item">
+                                    <div class="product-info">
+                                        <span class="product-name">Office Chair</span>
+                                        <span class="category">Furniture</span>
+                                    </div>
+                                    <div class="prediction-value medium">
+                                        <i class="fas fa-arrow-right"></i> +15%
+                                    </div>
+                                </div>
+                                <div class="prediction-item">
+                                    <div class="product-info">
+                                        <span class="product-name">T-Shirt</span>
+                                        <span class="category">Men</span>
+                                    </div>
+                                    <div class="prediction-value low">
+                                        <i class="fas fa-arrow-down"></i> -5%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Recommendations -->
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-lightbulb"></i> AI Recommendations</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="recommendations-list">
+                                <div class="recommendation-item priority-high">
+                                    <div class="rec-icon">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="rec-content">
+                                        <h4>Increase Electronics Inventory</h4>
+                                        <p>Demand spike expected in 7 days. Increase stock by 35%.</p>
+                                        <span class="rec-impact">Impact: High</span>
+                                    </div>
+                                </div>
+                                <div class="recommendation-item priority-medium">
+                                    <div class="rec-icon">
+                                        <i class="fas fa-tag"></i>
+                                    </div>
+                                    <div class="rec-content">
+                                        <h4>Promotional Pricing</h4>
+                                        <p>Consider 15% discount on slow-moving furniture items.</p>
+                                        <span class="rec-impact">Impact: Medium</span>
+                                    </div>
+                                </div>
+                                <div class="recommendation-item priority-low">
+                                    <div class="rec-icon">
+                                        <i class="fas fa-truck"></i>
+                                    </div>
+                                    <div class="rec-content">
+                                        <h4>Supplier Optimization</h4>
+                                        <p>Review delivery schedules for better efficiency.</p>
+                                        <span class="rec-impact">Impact: Low</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seasonal Trends -->
+                    <div class="analytics-card full-width">
+                        <div class="card-header">
+                            <h3><i class="fas fa-calendar-alt"></i> Seasonal Trends Analysis</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="seasonalTrendsChart" width="800" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Descriptive Analysis Tab -->
+            <div id="descriptiveTab" class="tab-content">
+                <div class="analytics-grid">
+                    <!-- Inventory Overview -->
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-boxes"></i> Inventory Overview</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="inventoryOverviewChart" width="300" height="300"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Top Products -->
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-trophy"></i> Top Performing Products</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="top-products-list">
+                                <div class="product-item">
+                                    <div class="rank">#1</div>
+                                    <div class="product-details">
+                                        <span class="name">Wireless Gaming Mouse</span>
+                                        <span class="sales">$4,250 in sales</span>
+                                    </div>
+                                </div>
+                                <div class="product-item">
+                                    <div class="rank">#2</div>
+                                    <div class="product-details">
+                                        <span class="name">Executive Chair</span>
+                                        <span class="sales">$3,890 in sales</span>
+                                    </div>
+                                </div>
+                                <div class="product-item">
+                                    <div class="rank">#3</div>
+                                    <div class="product-details">
+                                        <span class="name">Men's T-Shirt</span>
+                                        <span class="sales">$2,140 in sales</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category Performance -->
+                    <div class="analytics-card full-width">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-bar"></i> Category Performance</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="categoryPerformanceChart" width="800" height="300"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Sales Metrics -->
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-calculator"></i> Key Metrics</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="metrics-grid">
+                                <div class="metric-item">
+                                    <div class="metric-value" id="totalRevenue">$28,450</div>
+                                    <div class="metric-label">Total Revenue</div>
+                                    <div class="metric-change positive">+12.5%</div>
+                                </div>
+                                <div class="metric-item">
+                                    <div class="metric-value" id="avgOrderValue">$89.50</div>
+                                    <div class="metric-label">Avg Order Value</div>
+                                    <div class="metric-change positive">+8.3%</div>
+                                </div>
+                                <div class="metric-item">
+                                    <div class="metric-value" id="inventoryTurnover">4.2x</div>
+                                    <div class="metric-label">Inventory Turnover</div>
+                                    <div class="metric-change negative">-2.1%</div>
+                                </div>
+                                <div class="metric-item">
+                                    <div class="metric-value" id="stockAccuracy">94.8%</div>
+                                    <div class="metric-label">Stock Accuracy</div>
+                                    <div class="metric-change positive">+5.7%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Supplier Analysis -->
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-handshake"></i> Supplier Performance</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="supplier-metrics">
+                                <div class="supplier-item">
+                                    <div class="supplier-name">TechMart Solutions</div>
+                                    <div class="supplier-stats">
+                                        <div class="stat">
+                                            <span class="label">Rating:</span>
+                                            <span class="value">4.8/5</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="label">On-time:</span>
+                                            <span class="value">94%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="supplier-item">
+                                    <div class="supplier-name">Fashion World</div>
+                                    <div class="supplier-stats">
+                                        <div class="stat">
+                                            <span class="label">Rating:</span>
+                                            <span class="value">4.5/5</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="label">On-time:</span>
+                                            <span class="value">89%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagnostic Analysis Tab -->
+            <div id="diagnosticTab" class="tab-content">
+                <div class="diagnostic-dashboard">
+                    <!-- Issue Summary -->
+                    <div class="issues-summary">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Issues Summary</h3>
+                        <div class="issue-cards">
+                            <div class="issue-card critical">
+                                <div class="issue-count">3</div>
+                                <div class="issue-label">Critical Issues</div>
+                            </div>
+                            <div class="issue-card warning">
+                                <div class="issue-count">7</div>
+                                <div class="issue-label">Warnings</div>
+                            </div>
+                            <div class="issue-card info">
+                                <div class="issue-count">12</div>
+                                <div class="issue-label">Recommendations</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Issues -->
+                    <div class="issues-detailed">
+                        <h3><i class="fas fa-list"></i> Detailed Analysis</h3>
+                        
+                        <div class="issue-section">
+                            <h4>Critical Issues</h4>
+                            <div class="issue-list">
+                                <div class="issue-item critical">
+                                    <div class="issue-icon">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </div>
+                                    <div class="issue-content">
+                                        <h5>Stock-Out Risk in Electronics</h5>
+                                        <p>3 high-demand products will run out of stock within 5 days based on current sales velocity.</p>
+                                        <div class="issue-details">
+                                            <span class="detail">Impact: Revenue loss of $2,400</span>
+                                            <span class="detail">Affected: Wireless Mouse, Bluetooth Speaker, USB Cable</span>
+                                        </div>
+                                    </div>
+                                    <div class="issue-actions">
+                                        <button class="btn btn-sm btn-primary">Create Orders</button>
+                                        <button class="btn btn-sm btn-outline">View Details</button>
+                                    </div>
+                                </div>
+
+                                <div class="issue-item critical">
+                                    <div class="issue-icon">
+                                        <i class="fas fa-truck"></i>
+                                    </div>
+                                    <div class="issue-content">
+                                        <h5>Supplier Delivery Delays</h5>
+                                        <p>Fashion World supplier has delayed 40% of deliveries in the past month.</p>
+                                        <div class="issue-details">
+                                            <span class="detail">Average delay: 4.2 days</span>
+                                            <span class="detail">Affected orders: 8</span>
+                                        </div>
+                                    </div>
+                                    <div class="issue-actions">
+                                        <button class="btn btn-sm btn-warning">Contact Supplier</button>
+                                        <button class="btn btn-sm btn-outline">Performance Report</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="issue-section">
+                            <h4>Root Cause Analysis</h4>
+                            <div class="root-causes">
+                                <div class="cause-item">
+                                    <h5>Demand Forecasting Gaps</h5>
+                                    <p>Current forecasting model underestimates weekend sales by 23% and doesn't account for promotional impacts.</p>
+                                    <div class="cause-impact">
+                                        <strong>Impact:</strong> 15% of stock-outs could be prevented with better forecasting
+                                    </div>
+                                </div>
+
+                                <div class="cause-item">
+                                    <h5>Inventory Optimization Issues</h5>
+                                    <p>Minimum stock levels haven't been updated in 6 months despite changing demand patterns.</p>
+                                    <div class="cause-impact">
+                                        <strong>Impact:</strong> $3,200 in excess inventory costs
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="issue-section">
+                            <h4>Action Plan</h4>
+                            <div class="action-plan">
+                                <div class="action-item priority-high">
+                                    <div class="action-header">
+                                        <h5>1. Implement Dynamic Reorder Points</h5>
+                                        <span class="priority">High Priority</span>
+                                    </div>
+                                    <p>Update minimum stock levels based on recent sales data and seasonal patterns.</p>
+                                    <div class="action-timeline">
+                                        <strong>Timeline:</strong> 2 weeks
+                                        <strong>Resources:</strong> AI Genie, Inventory Manager
+                                    </div>
+                                </div>
+
+                                <div class="action-item priority-medium">
+                                    <div class="action-header">
+                                        <h5>2. Diversify Supplier Base</h5>
+                                        <span class="priority">Medium Priority</span>
+                                    </div>
+                                    <p>Identify and onboard backup suppliers for critical product categories.</p>
+                                    <div class="action-timeline">
+                                        <strong>Timeline:</strong> 1 month
+                                        <strong>Resources:</strong> Procurement Team
+                                    </div>
+                                </div>
+
+                                <div class="action-item priority-low">
+                                    <div class="action-header">
+                                        <h5>3. Enhance Demand Forecasting</h5>
+                                        <span class="priority">Low Priority</span>
+                                    </div>
+                                    <p>Incorporate promotional and seasonal factors into forecasting model.</p>
+                                    <div class="action-timeline">
+                                        <strong>Timeline:</strong> 6 weeks
+                                        <strong>Resources:</strong> Data Analytics Team
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Status Bar -->
+    <footer class="status-bar">
+        <div class="status-left">
+            <span class="status-item">
+                <i class="fas fa-circle" style="color: #4caf50;"></i>
+                Analytics Engine Active
+            </span>
+        </div>
+        <div class="status-right">
+            <span id="lastAnalyticsUpdate">Last updated: Never</span>
+        </div>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+    <script src="../js/common.js"></script>
+    <script src="../js/analytics.js"></script>
+</body>
+</html>
