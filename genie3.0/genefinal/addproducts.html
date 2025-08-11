@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Management | Inventor AI Genie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+      --card-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      --hover-shadow: 0 12px 40px rgba(0,0,0,0.15);
+      --border-radius: 16px;
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: var(--primary-gradient);
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      padding: var(--spacing-sm) 0;
+      line-height: 1.6;
+    }
+    
+    .main-container {
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      margin: var(--spacing-sm) auto;
+      padding: var(--spacing-xl);
+      max-width: 1400px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+      position: relative;
+      padding-bottom: var(--spacing-lg);
+    }
+    
+    .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--primary-gradient);
+      border-radius: 2px;
+    }
+    
+    .page-title {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: var(--spacing-xs);
+      letter-spacing: -0.02em;
+    }
+    
+    .page-subtitle {
+      color: #6c757d;
+      font-size: 1.1rem;
+      margin-bottom: var(--spacing-md);
+      font-weight: 400;
+    }
+    
+    .mode-switcher {
+      background: white;
+      border-radius: 20px;
+      padding: 0.4rem;
+      display: inline-flex;
+      margin-bottom: var(--spacing-lg);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      border: 1px solid #e9ecef;
+    }
+    
+    .mode-btn {
+      background: transparent;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      color: #6c757d;
+      font-size: 0.95rem;
+    }
+    
+    .mode-btn.active {
+      background: var(--primary-gradient);
+      color: white;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+    
+    .mode-btn:hover:not(.active) {
+      background: #f8f9fa;
+      color: #495057;
+    }
+    
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .form-container {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      box-shadow: var(--card-shadow);
+      border: 1px solid #e9ecef;
+    }
+    
+    .table-container {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      box-shadow: var(--card-shadow);
+      border: 1px solid #e9ecef;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    
+    .form-section {
+      margin-bottom: var(--spacing-md);
+      padding: var(--spacing-md);
+      background: #f8f9fa;
+      border-radius: 12px;
+      border-left: 4px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .form-section:hover {
+      background: #f1f3f4;
+      border-left-color: #667eea;
+    }
+    
+    .section-title {
+      color: #343a40;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: var(--spacing-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+    
+    .form-floating {
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 1rem 0.75rem;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    .form-floating > .form-control:focus,
+    .form-floating > .form-select:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.15rem rgba(102, 126, 234, 0.15);
+      background: white;
+    }
+    
+    .form-floating > label {
+      color: #6c757d;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    
+    .btn-ai {
+      background: var(--primary-gradient);
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-ai:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      color: white;
+    }
+    
+    .btn-reset {
+      background: white;
+      border: 1px solid #dee2e6;
+      color: #495057;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+    
+    .btn-reset:hover {
+      background: #f8f9fa;
+      border-color: #adb5bd;
+      transform: translateY(-1px);
+      color: #495057;
+    }
+    
+    .btn-edit {
+      background: var(--warning-gradient);
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-edit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(250, 112, 154, 0.3);
+      color: white;
+    }
+    
+    .product-search {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      border: 1px solid #dee2e6;
+    }
+    
+    .search-input {
+      border: 1px solid #dee2e6;
+      border-radius: 12px;
+      padding: 0.875rem 1rem;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    .search-input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.15rem rgba(102, 126, 234, 0.15);
+    }
+    
+    .products-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .products-table th {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 1rem 0.75rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #495057;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #dee2e6;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .products-table td {
+      padding: 0.875rem 0.75rem;
+      border-bottom: 1px solid #f1f3f4;
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+    
+    .products-table tbody tr {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .products-table tbody tr:hover {
+      background: #f8f9fa;
+      transform: scale(1.01);
+    }
+    
+    .products-table tbody tr.selected {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.05));
+      border-left: 4px solid #667eea;
+    }
+    
+    .status-badge {
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .status-in-stock {
+      background: rgba(40, 167, 69, 0.1);
+      color: #28a745;
+      border: 1px solid rgba(40, 167, 69, 0.2);
+    }
+    
+    .status-low-stock {
+      background: rgba(255, 193, 7, 0.1);
+      color: #ffc107;
+      border: 1px solid rgba(255, 193, 7, 0.2);
+    }
+    
+    .status-out-stock {
+      background: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      border: 1px solid rgba(220, 53, 69, 0.2);
+    }
+    
+    .status-expiring {
+      background: rgba(255, 107, 107, 0.1);
+      color: #ff6b6b;
+      border: 1px solid rgba(255, 107, 107, 0.2);
+    }
+    
+    .ai-suggestions {
+      background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+      border: none;
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin-top: var(--spacing-md);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ai-suggestions::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary-gradient);
+    }
+    
+    .suggestions-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .suggestions-list li {
+      position: relative;
+      padding: 0.4rem 0 0.4rem 1.5rem;
+      margin-bottom: 0.3rem;
+      color: #495057;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    
+    .suggestions-list li::before {
+      content: '🤖';
+      position: absolute;
+      left: 0;
+      top: 0.4rem;
+      font-size: 0.8rem;
+    }
+    
+    .edit-mode-badge {
+      background: var(--warning-gradient);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      margin-bottom: var(--spacing-sm);
+      font-size: 0.9rem;
+    }
+    
+    .manual-edit-warning {
+      background: rgba(255, 193, 7, 0.08);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      border-radius: 12px;
+      padding: var(--spacing-sm);
+      margin-bottom: var(--spacing-md);
+      color: #856404;
+    }
+    
+    .stock-indicator {
+      position: relative;
+      height: 6px;
+      background: #e9ecef;
+      border-radius: 3px;
+      margin-top: 0.3rem;
+      overflow: hidden;
+    }
+    
+    .stock-bar {
+      height: 100%;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    
+    .stock-low { background: linear-gradient(90deg, #ff6b6b, #ee5a24); }
+    .stock-medium { background: linear-gradient(90deg, #feca57, #ff9ff3); }
+    .stock-good { background: linear-gradient(90deg, #48dbfb, #0abde3); }
+    .stock-high { background: linear-gradient(90deg, #1dd1a1, #10ac84); }
+    
+    .alert-enhanced {
+      border: none;
+      border-radius: 12px;
+      padding: var(--spacing-sm) var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      backdrop-filter: blur(10px);
+      font-size: 0.9rem;
+    }
+    
+    .table-header {
+      display: flex;
+      justify-content: between;
+      align-items: center;
+      margin-bottom: var(--spacing-sm);
+      padding-bottom: var(--spacing-xs);
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .table-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #343a40;
+      margin: 0;
+    }
+    
+    .table-stats {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: var(--spacing-xs);
+      justify-content: center;
+      margin-top: var(--spacing-md);
+    }
+    
+    .floating-elements {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      z-index: 1000;
+    }
+    
+    .floating-btn {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      margin-bottom: 0.5rem;
+      color: #667eea;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .floating-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      color: #667eea;
+    }
+    
+    .table-search {
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .table-search input {
+      border-radius: 10px;
+      border: 1px solid #dee2e6;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9rem;
+    }
+    
+    .table-search input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.1rem rgba(102, 126, 234, 0.15);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: var(--spacing-xl);
+      color: #6c757d;
+    }
+    
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: var(--spacing-sm);
+      opacity: 0.5;
+    }
+    
+    @media (max-width: 992px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+      }
+      
+      .main-container {
+        margin: 0.5rem;
+        padding: var(--spacing-md);
+      }
+      
+      .floating-elements {
+        display: none;
+      }
+      
+      .page-title {
+        font-size: 2rem;
+      }
+      
+      .products-table {
+        font-size: 0.8rem;
+      }
+      
+      .products-table th,
+      .products-table td {
+        padding: 0.5rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .mode-switcher {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .mode-btn {
+        margin-bottom: 0.25rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Action Buttons -->
+  <div class="floating-elements">
+    <button class="floating-btn" onclick="window.location.href='dashboard.html'" title="Back to Dashboard">
+      <i class="bi bi-house"></i>
+    </button>
+    <button class="floating-btn" onclick="resetForm()" title="Reset Form">
+      <i class="bi bi-arrow-clockwise"></i>
+    </button>
+    <button class="floating-btn" onclick="refreshProductTable()" title="Refresh Table">
+      <i class="bi bi-arrow-repeat"></i>
+    </button>
+  </div>
+
+  <div class="main-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">
+        <i class="bi bi-gear me-2"></i>
+        Product Management Center
+      </h1>
+      <p class="page-subtitle">Add new products or edit existing ones with complete control over your inventory</p>
+      <a href="dashboard.html" class="btn btn-outline-secondary rounded-pill px-4">
+        <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+      </a>
+    </div>
+
+    <!-- Mode Switcher -->
+    <div class="text-center">
+      <div class="mode-switcher">
+        <button class="mode-btn active" id="addModeBtn" onclick="switchMode('add')">
+          <i class="bi bi-plus-circle me-2"></i>Add New Product
+        </button>
+        <button class="mode-btn" id="editModeBtn" onclick="switchMode('edit')">
+          <i class="bi bi-pencil-square me-2"></i>Edit Existing Product
+        </button>
+      </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="messageContainer"></div>
+
+    <!-- Edit Mode: Product Search -->
+    <div id="productSearchSection" class="product-search" style="display: none;">
+      <h6 class="mb-3">
+        <i class="bi bi-search text-primary me-2"></i>
+        Search & Select Product to Edit
+      </h6>
+      <div class="row g-2">
+        <div class="col-md-9">
+          <input type="text" id="productSearchInput" class="form-control search-input" 
+                 placeholder="Search by product name, ID, or category...">
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-ai w-100" onclick="searchProducts()">
+            <i class="bi bi-search me-1"></i>Search
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Mode Badge -->
+    <div id="editModeBadge" style="display: none;">
+      <div class="edit-mode-badge">
+        <i class="bi bi-pencil-square"></i>
+        <span>Editing: <strong id="editingProductName">Product Name</strong></span>
+        <button class="btn btn-sm btn-outline-light ms-2" onclick="clearEditSelection()">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Manual Edit Warning -->
+    <div id="manualEditWarning" class="manual-edit-warning" style="display: none;">
+      <div class="d-flex align-items-start">
+        <i class="bi bi-exclamation-triangle fs-5 me-2 text-warning"></i>
+        <div>
+          <h6 class="mb-1">⚠️ Manual Edit Mode Active</h6>
+          <p class="mb-1 small">Full control enabled - ensure date accuracy for proper AI analysis.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="content-grid">
+      <!-- Form Container -->
+      <div class="form-container">
+        <div class="table-header">
+          <h5 class="table-title">
+            <i class="bi bi-plus-circle text-primary me-2"></i>
+            <span id="formTitle">Add New Product</span>
+          </h5>
+        </div>
+
+        <!-- Product Form -->
+        <form id="productForm">
+          <!-- Basic Information Section -->
+          <div class="form-section">
+            <h6 class="section-title">
+              <i class="bi bi-info-circle text-primary"></i>
+              Basic Information
+            </h6>
+            <div class="row g-2">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="productId" required>
+                  <label for="productId">
+                    <i class="bi bi-tag me-1"></i>Product ID
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="productName" required>
+                  <label for="productName">
+                    <i class="bi bi-box me-1"></i>Product Name
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category and Supplier Section -->
+          <div class="form-section">
+            <h6 class="section-title">
+              <i class="bi bi-diagram-3 text-success"></i>
+              Classification
+            </h6>
+            <div class="row g-2">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <select class="form-select" id="categorySelect" required>
+                    <option value="">Loading...</option>
+                  </select>
+                  <label for="categorySelect">
+                    <i class="bi bi-tags me-1"></i>Category
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <select class="form-select" id="supplierSelect" required>
+                    <option value="">Loading...</option>
+                  </select>
+                  <label for="supplierSelect">
+                    <i class="bi bi-truck me-1"></i>Supplier
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pricing and Stock Section -->
+          <div class="form-section">
+            <h6 class="section-title">
+              <i class="bi bi-currency-rupee text-warning"></i>
+              Pricing & Stock
+            </h6>
+            <div class="row g-2">
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="productPrice" step="0.01" min="0" required>
+                  <label for="productPrice">
+                    <i class="bi bi-currency-rupee me-1"></i>Price (₹)
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="currentStock" min="0" required>
+                  <label for="currentStock">
+                    <i class="bi bi-stack me-1"></i>Stock
+                  </label>
+                </div>
+                <div class="stock-indicator">
+                  <div class="stock-bar" id="stockBar"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="minimumStock" min="1" value="5" required>
+                  <label for="minimumStock">
+                    <i class="bi bi-exclamation-triangle me-1"></i>Min Stock
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Date Section -->
+          <div class="form-section">
+            <h6 class="section-title">
+              <i class="bi bi-calendar-event text-info"></i>
+              Date Management
+            </h6>
+            <div class="row g-2">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="date" class="form-control" id="dateAdded" required>
+                  <label for="dateAdded">
+                    <i class="bi bi-calendar-plus me-1"></i>Date Added
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="date" class="form-control" id="expiryDate">
+                  <label for="expiryDate">
+                    <i class="bi bi-calendar-x me-1"></i>Expiry Date
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Suggestions -->
+          <div class="ai-suggestions">
+            <h6 class="mb-2">
+              <i class="bi bi-cpu me-2" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+              AI Insights
+            </h6>
+            <ul class="suggestions-list" id="aiSuggestions">
+              <li>AI monitoring will be enabled for this product</li>
+              <li>Smart recommendations based on stock patterns</li>
+              <li>Automated alerts for low stock and expiry</li>
+            </ul>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="action-buttons">
+            <button type="button" class="btn btn-reset" onclick="resetForm()">
+              <i class="bi bi-arrow-clockwise me-1"></i>Reset
+            </button>
+            <button type="submit" class="btn btn-ai" id="submitBtn">
+              <i class="bi bi-check-circle me-1"></i>Add Product
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Products Table Container -->
+      <div class="table-container">
+        <div class="table-header">
+          <h5 class="table-title">
+            <i class="bi bi-table text-primary me-2"></i>
+            Current Products
+          </h5>
+          <div class="table-stats">
+            <span id="productCount">0</span> products
+          </div>
+        </div>
+
+        <!-- Table Search -->
+        <div class="table-search">
+          <input type="text" id="tableSearchInput" class="form-control" 
+                 placeholder="Search products..." onkeyup="filterTable()">
+        </div>
+
+        <!-- Products Table -->
+        <div id="productsTableContainer">
+          <table class="products-table" id="productsTable">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Added</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody">
+              <!-- Products will be loaded here -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+          <i class="bi bi-inbox"></i>
+          <h6>No Products Found</h6>
+          <p class="small text-muted">Add your first product to get started</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let currentMode = 'add';
+    let editingProductId = null;
+    let allProducts = [];
+    let filteredProducts = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadCategories();
+      loadSuppliers();
+      setupForm();
+      loadProductsTable();
+    });
+
+    // Switch between Add and Edit modes
+    function switchMode(mode) {
+      currentMode = mode;
+      
+      // Update mode buttons
+      document.getElementById('addModeBtn').classList.toggle('active', mode === 'add');
+      document.getElementById('editModeBtn').classList.toggle('active', mode === 'edit');
+      
+      // Update form title
+      document.getElementById('formTitle').innerHTML = mode === 'add' ? 
+        '<i class="bi bi-plus-circle text-primary me-2"></i>Add New Product' : 
+        '<i class="bi bi-pencil-square text-warning me-2"></i>Edit Product';
+      
+      // Show/hide relevant sections
+      document.getElementById('productSearchSection').style.display = mode === 'edit' ? 'block' : 'none';
+      document.getElementById('editModeBadge').style.display = mode === 'edit' && editingProductId ? 'block' : 'none';
+      document.getElementById('manualEditWarning').style.display = mode === 'edit' ? 'block' : 'none';
+      
+      // Update form behavior
+      if (mode === 'add') {
+        clearEditSelection();
+        resetForm();
+        document.getElementById('productId').readOnly = true;
+        document.getElementById('dateAdded').readOnly = true;
+      } else {
+        document.getElementById('productId').readOnly = false;
+        document.getElementById('dateAdded').readOnly = false;
+        document.getElementById('dateAdded').min = '2020-01-01';
+        document.getElementById('expiryDate').min = '2020-01-01';
+      }
+      
+      updateSubmitButton();
+    }
+
+    // Load products table
+    async function loadProductsTable() {
+      try {
+        const response = await fetch('/api/products');
+        if (!response.ok) throw new Error('Failed to load products');
+        
+        allProducts = await response.json();
+        filteredProducts = [...allProducts];
+        renderProductsTable();
+        
+        // Update product count
+        document.getElementById('productCount').textContent = allProducts.length;
+        
+      } catch (error) {
+        console.error('Error loading products:', error);
+        showMessage('Failed to load products table', 'error');
+      }
+    }
+
+    // Render products table
+    function renderProductsTable() {
+      const tbody = document.getElementById('productsTableBody');
+      const emptyState = document.getElementById('emptyState');
+      const tableContainer = document.getElementById('productsTableContainer');
+      
+      if (filteredProducts.length === 0) {
+        tableContainer.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+      }
+      
+      tableContainer.style.display = 'block';
+      emptyState.style.display = 'none';
+      
+      tbody.innerHTML = filteredProducts.map(product => {
+        const status = getProductStatus(product);
+        const statusClass = getStatusClass(status);
+        
+        return `
+          <tr onclick="selectProductFromTable(${product.id})" class="${editingProductId === product.id ? 'selected' : ''}">
+            <td>
+              <div>
+                <div class="fw-semibold">${product.name}</div>
+                <small class="text-muted">${product.product_id}</small>
+              </div>
+            </td>
+            <td>
+              <span class="text-muted">${product.category_name || 'N/A'}</span>
+            </td>
+            <td>
+              <div>
+                <span class="fw-semibold">${product.current_stock}</span>
+                <small class="text-muted">/ ${product.minimum_stock}</small>
+                ${product.current_stock <= product.minimum_stock ? 
+                  '<br><small class="text-warning"><i class="bi bi-exclamation-triangle"></i> Low</small>' : ''}
+              </div>
+            </td>
+            <td>
+              <span class="fw-semibold">₹${parseFloat(product.price).toFixed(2)}</span>
+            </td>
+            <td>
+              <span class="status-badge ${statusClass}">${status}</span>
+            </td>
+            <td>
+              <small class="text-muted">${formatDate(product.date_added)}</small>
+              ${product.expiry_date ? `<br><small class="text-warning">Exp: ${formatDate(product.expiry_date)}</small>` : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Get product status
+    function getProductStatus(product) {
+      if (product.current_stock === 0) return 'Out of Stock';
+      if (product.current_stock <= product.minimum_stock) return 'Low Stock';
+      
+      // Check expiry
+      if (product.expiry_date) {
+        const expiryDate = new Date(product.expiry_date);
+        const today = new Date();
+        const daysToExpiry = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+        
+        if (daysToExpiry <= 0) return 'Expired';
+        if (daysToExpiry <= 30) return 'Expiring Soon';
+      }
+      
+      return 'In Stock';
+    }
+
+    // Get status CSS class
+    function getStatusClass(status) {
+      switch(status) {
+        case 'In Stock': return 'status-in-stock';
+        case 'Low Stock': return 'status-low-stock';
+        case 'Out of Stock': return 'status-out-stock';
+        case 'Expired':
+        case 'Expiring Soon': return 'status-expiring';
+        default: return 'status-in-stock';
+      }
+    }
+
+    // Format date
+    function formatDate(dateString) {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-IN', { 
+        day: '2-digit', 
+        month: 'short',
+        year: '2-digit'
+      });
+    }
+
+    // Filter table
+    function filterTable() {
+      const searchTerm = document.getElementById('tableSearchInput').value.toLowerCase();
+      
+      if (!searchTerm.trim()) {
+        filteredProducts = [...allProducts];
+      } else {
+        filteredProducts = allProducts.filter(product => 
+          product.name.toLowerCase().includes(searchTerm) ||
+          product.product_id.toLowerCase().includes(searchTerm) ||
+          (product.category_name && product.category_name.toLowerCase().includes(searchTerm))
+        );
+      }
+      
+      renderProductsTable();
+    }
+
+    // Select product from table
+    function selectProductFromTable(productId) {
+      if (currentMode !== 'edit') {
+        switchMode('edit');
+      }
+      
+      // Clear previous selection
+      document.querySelectorAll('.products-table tbody tr').forEach(row => {
+        row.classList.remove('selected');
+      });
+      
+      // Select current row
+      event.currentTarget.classList.add('selected');
+      
+      // Load product data
+      selectProduct(productId);
+    }
+
+    // Search products (for search section)
+    function searchProducts() {
+      const searchTerm = document.getElementById('productSearchInput').value.toLowerCase().trim();
+      
+      if (!searchTerm) {
+        showMessage('Please enter a search term', 'warning');
+        return;
+      }
+      
+      // Filter and highlight in table
+      document.getElementById('tableSearchInput').value = searchTerm;
+      filterTable();
+      
+      // Show message
+      if (filteredProducts.length === 0) {
+        showMessage(`No products found matching "${searchTerm}"`, 'warning');
+      } else {
+        showMessage(`Found ${filteredProducts.length} product(s) matching "${searchTerm}"`, 'success');
+      }
+    }
+
+    // Select product for editing
+    async function selectProduct(productId) {
+      try {
+        const response = await fetch(`/api/products/${productId}`);
+        if (!response.ok) throw new Error('Failed to load product details');
+        
+        const product = await response.json();
+        editingProductId = productId;
+        
+        // Populate form with product data
+        document.getElementById('productId').value = product.product_id;
+        document.getElementById('productName').value = product.name;
+        document.getElementById('categorySelect').value = product.category_id;
+        document.getElementById('supplierSelect').value = product.supplier_id;
+        document.getElementById('productPrice').value = product.price;
+        document.getElementById('currentStock').value = product.current_stock;
+        document.getElementById('minimumStock').value = product.minimum_stock;
+        document.getElementById('dateAdded').value = product.date_added;
+        document.getElementById('expiryDate').value = product.expiry_date || '';
+        
+        // Update UI
+        document.getElementById('editingProductName').textContent = product.name;
+        document.getElementById('editModeBadge').style.display = 'block';
+        
+        updateSubmitButton();
+        updateAISuggestions();
+        updateStockIndicator();
+        
+        showMessage(`✅ Selected "${product.name}" for editing`, 'success');
+        
+      } catch (error) {
+        console.error('Error selecting product:', error);
+        showMessage('Failed to load product details', 'error');
+      }
+    }
+
+    // Clear edit selection
+    function clearEditSelection() {
+      editingProductId = null;
+      document.getElementById('editModeBadge').style.display = 'none';
+      document.getElementById('productSearchInput').value = '';
+      document.getElementById('tableSearchInput').value = '';
+      
+      // Clear table selection
+      document.querySelectorAll('.products-table tbody tr').forEach(row => {
+        row.classList.remove('selected');
+      });
+      
+      // Reset filtered products
+      filteredProducts = [...allProducts];
+      renderProductsTable();
+      
+      resetForm();
+    }
+
+    // Refresh product table
+    function refreshProductTable() {
+      loadProductsTable();
+      showMessage('Product table refreshed', 'success');
+    }
+
+    // Update submit button based on mode
+    function updateSubmitButton() {
+      const submitBtn = document.getElementById('submitBtn');
+      if (currentMode === 'add') {
+        submitBtn.innerHTML = '<i class="bi bi-check-circle me-1"></i>Add Product';
+        submitBtn.className = 'btn btn-ai';
+      } else {
+        submitBtn.innerHTML = '<i class="bi bi-save me-1"></i>Update Product';
+        submitBtn.className = 'btn btn-edit';
+      }
+    }
+
+    // Load categories for dropdown
+    async function loadCategories() {
+      try {
+        const response = await fetch('/api/categories');
+        if (!response.ok) throw new Error('Failed to load categories');
+        
+        const categories = await response.json();
+        const select = document.getElementById('categorySelect');
+        
+        select.innerHTML = '<option value="">Select Category</option>';
+        categories.forEach(cat => {
+          select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
+        });
+        
+      } catch (error) {
+        console.error('Error loading categories:', error);
+        showMessage('Failed to load categories', 'error');
+      }
+    }
+
+    // Load suppliers for dropdown
+    async function loadSuppliers() {
+      try {
+        const response = await fetch('/api/suppliers');
+        if (!response.ok) throw new Error('Failed to load suppliers');
+        
+        const suppliers = await response.json();
+        const select = document.getElementById('supplierSelect');
+        
+        select.innerHTML = '<option value="">Select Supplier</option>';
+        suppliers.forEach(sup => {
+          select.innerHTML += `<option value="${sup.id}">${sup.name}</option>`;
+        });
+        
+      } catch (error) {
+        console.error('Error loading suppliers:', error);
+        showMessage('Failed to load suppliers', 'error');
+      }
+    }
+
+    // Setup form interactions
+    function setupForm() {
+      if (currentMode === 'add') {
+        const productId = 'PRD' + Date.now().toString().slice(-6);
+        document.getElementById('productId').value = productId;
+        document.getElementById('productId').readOnly = true;
+        
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('dateAdded').value = today;
+        document.getElementById('dateAdded').readOnly = true;
+        
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('expiryDate').min = tomorrow.toISOString().split('T')[0];
+      }
+      
+      // Event listeners
+      document.getElementById('categorySelect').addEventListener('change', updateAISuggestions);
+      document.getElementById('currentStock').addEventListener('input', function() {
+        updateAISuggestions();
+        updateStockIndicator();
+      });
+      document.getElementById('minimumStock').addEventListener('input', updateStockIndicator);
+      document.getElementById('expiryDate').addEventListener('change', updateAISuggestions);
+      document.getElementById('dateAdded').addEventListener('change', updateAISuggestions);
+      
+      // Search functionality
+      document.getElementById('productSearchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          searchProducts();
+        }
+      });
+      
+      // Initial updates
+      updateAISuggestions();
+      updateStockIndicator();
+    }
+
+    // Update AI suggestions
+    function updateAISuggestions() {
+      const category = document.getElementById('categorySelect');
+      const stock = parseInt(document.getElementById('currentStock').value) || 0;
+      const expiryDate = document.getElementById('expiryDate').value;
+      const dateAdded = document.getElementById('dateAdded').value;
+      const suggestions = document.getElementById('aiSuggestions');
+      
+      let suggestionsList = [];
+      
+      if (currentMode === 'edit') {
+        suggestionsList.push(`✏️ Editing mode - AI will update analysis`);
+      } else {
+        suggestionsList.push(`📊 AI monitoring from ${dateAdded}`);
+      }
+      
+      suggestionsList.push(`🔍 Stock level: ${stock} units tracked`);
+      suggestionsList.push(`🤖 Smart alerts and recommendations enabled`);
+      
+      if (category.value && category.selectedOptions[0]) {
+        const categoryName = category.selectedOptions[0].text;
+        suggestionsList.push(`🏷️ Category: ${categoryName} analytics`);
+      }
+      
+      if (stock === 0) {
+        suggestionsList.push('⚠️ Zero stock - consider restocking');
+      } else if (stock <= 10) {
+        suggestionsList.push('⚠️ Low stock - early alerts enabled');
+      } else {
+        suggestionsList.push('✅ Good stock level for tracking');
+      }
+      
+      if (expiryDate) {
+        const expiry = new Date(expiryDate);
+        const today = new Date();
+        const daysToExpiry = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+        
+        if (daysToExpiry <= 0) {
+          suggestionsList.push('🚨 Product has expired!');
+        } else if (daysToExpiry <= 30) {
+          suggestionsList.push(`⏰ Expires in ${daysToExpiry} days`);
+        } else {
+          suggestionsList.push(`📅 ${daysToExpiry} days shelf life`);
+        }
+      }
+      
+      suggestions.innerHTML = suggestionsList.map(s => `<li>${s}</li>`).join('');
+    }
+
+    // Update stock indicator
+    function updateStockIndicator() {
+      const currentStock = parseInt(document.getElementById('currentStock').value) || 0;
+      const minimumStock = parseInt(document.getElementById('minimumStock').value) || 5;
+      const stockBar = document.getElementById('stockBar');
+      
+      const maxDisplay = Math.max(currentStock, minimumStock * 3, 50);
+      const percentage = (currentStock / maxDisplay) * 100;
+      
+      stockBar.style.width = Math.min(percentage, 100) + '%';
+      
+      stockBar.className = 'stock-bar';
+      if (currentStock === 0) {
+        stockBar.classList.add('stock-low');
+      } else if (currentStock < minimumStock) {
+        stockBar.classList.add('stock-low');
+      } else if (currentStock < minimumStock * 2) {
+        stockBar.classList.add('stock-medium');
+      } else if (currentStock < minimumStock * 4) {
+        stockBar.classList.add('stock-good');
+      } else {
+        stockBar.classList.add('stock-high');
+      }
+    }
+
+    // Form submission
+    document.getElementById('productForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = {
+        product_id: document.getElementById('productId').value,
+        name: document.getElementById('productName').value,
+        category_id: parseInt(document.getElementById('categorySelect').value),
+        supplier_id: parseInt(document.getElementById('supplierSelect').value),
+        price: parseFloat(document.getElementById('productPrice').value),
+        current_stock: parseInt(document.getElementById('currentStock').value),
+        minimum_stock: parseInt(document.getElementById('minimumStock').value),
+        date_added: document.getElementById('dateAdded').value,
+        expiry_date: document.getElementById('expiryDate').value || null
+      };
+      
+      try {
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn.innerHTML;
+        
+        submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-1"></span>${currentMode === 'add' ? 'Adding...' : 'Updating...'}`;
+        submitBtn.disabled = true;
+        
+        const url = currentMode === 'add' ? '/api/products' : `/api/products/${editingProductId}`;
+        const method = currentMode === 'add' ? 'POST' : 'PUT';
+        
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || `Failed to ${currentMode} product`);
+        }
+        
+        showMessage(`✅ Product ${currentMode === 'add' ? 'added' : 'updated'} successfully!`, 'success');
+        
+        // Refresh table
+        await loadProductsTable();
+        
+        if (currentMode === 'add') {
+          resetForm();
+        }
+        
+        submitBtn.innerHTML = originalHTML;
+        submitBtn.disabled = false;
+        
+      } catch (error) {
+        console.error(`Error ${currentMode}ing product:`, error);
+        showMessage(`❌ Failed to ${currentMode} product: ${error.message}`, 'error');
+        
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        submitBtn.innerHTML = currentMode === 'add' ? 
+          '<i class="bi bi-check-circle me-1"></i>Add Product' : 
+          '<i class="bi bi-save me-1"></i>Update Product';
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Reset form
+    function resetForm() {
+      document.getElementById('productForm').reset();
+      
+      if (currentMode === 'add') {
+        const newProductId = 'PRD' + Date.now().toString().slice(-6);
+        document.getElementById('productId').value = newProductId;
+        
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('dateAdded').value = today;
+        
+        document.getElementById('minimumStock').value = 5;
+      } else if (currentMode === 'edit') {
+        clearEditSelection();
+      }
+      
+      updateAISuggestions();
+      updateStockIndicator();
+    }
+
+    // Show message
+    function showMessage(message, type = 'info') {
+      const container = document.getElementById('messageContainer');
+      const alertClass = type === 'success' ? 'alert-success' : 
+                        type === 'error' ? 'alert-danger' : 
+                        type === 'warning' ? 'alert-warning' : 'alert-info';
+      
+      container.innerHTML = `
+        <div class="alert ${alertClass} alert-enhanced alert-dismissible fade show" role="alert">
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      `;
+      
+      if (type !== 'error') {
+        setTimeout(() => {
+          const alert = container.querySelector('.alert');
+          if (alert) {
+            const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+            bsAlert.close();
+          }
+        }, 4000);
+      }
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+        e.preventDefault();
+        resetForm();
+      }
+      
+      if (e.key === 'Escape') {
+        window.location.href = 'dashboard.html';
+      }
+      
+      if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+        e.preventDefault();
+        switchMode('edit');
+      }
+      
+      if ((e.ctrlKey || e.metaKey) && e.key === 'a' && !e.target.matches('input, textarea')) {
+        e.preventDefault();
+        switchMode('add');
+      }
+    });
+  </script>
+</body>
+</html>

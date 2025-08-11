@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventra AI Gene | Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f0f0f0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .title-bar {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar img {
+      height: 45px;
+      margin-right: 1rem;
+    }
+    .side-menu {
+      background: #fff;
+      min-height: 600px;
+      border-radius: 12px;
+      padding: 1.4rem 0.6rem;
+      box-shadow: 0 2px 12px #b6b6cb44;
+    }
+    .side-menu .menu-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 10px;
+    }
+    .side-menu .menu-title {
+      background: #3498db;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 6px;
+      padding: 8px 12px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .side-menu .btn {
+      width: 90%;
+      margin: 7px auto;
+      font-size: 1.12em;
+      background: #fff;
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border: none;
+      text-align: left;
+      text-decoration: none;
+    }
+    .side-menu .btn.active, .side-menu .btn:hover {
+      background: #e0e0e0;
+      color: #222;
+    }
+    .stats-box {
+      border-radius: 16px;
+      color: #fff;
+      font-size: 1.35em;
+      font-weight: bold;
+      text-align: center;
+      padding: 38px 0 28px 0;
+      margin-bottom: 1.4rem;
+      box-shadow: 0 4px 20px #d2d2f266;
+      letter-spacing: 1px;
+      min-height: 145px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+    .stats-box:hover {
+      transform: scale(1.05);
+      color: #fff;
+      text-decoration: none;
+    }
+    .footer-bar {
+      background: #34495e;
+      color: #fff;
+      font-size: 0.98em;
+      text-align: center;
+      padding: 10px 0;
+    }
+    .clock-bar {
+      background: #34495e;
+      color: #fff;
+      padding: 7px 0;
+      font-size: 1.06em;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .dashboard-welcome {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .quick-actions {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    .action-btn {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin: 5px;
+      transition: transform 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .action-btn:hover {
+      transform: translateY(-2px);
+      color: white;
+      text-decoration: none;
+    }
+    @media (max-width: 991px) {
+      .side-menu {min-height: 0;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Title Bar -->
+  <div class="title-bar mb-0">
+    <div class="d-flex align-items-center">
+      <img src="images/logo1.png" onerror="this.hidden=true" alt="logo">
+      <span style="font-size:2.1em; font-weight:600;">Inventra AI Gene</span>
+    </div>
+    <button id="refreshBtn" class="btn btn-success btn-sm px-4 fw-bold" style="font-size:1.1em;">
+      <i class="bi bi-arrow-clockwise"></i> Refresh
+    </button>
+  </div>
+  
+  <!-- Clock Bar -->
+  <div class="clock-bar" id="clockBar">Welcome, Admin!  Date: --  Time: --</div>
+
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <!-- Side Menu -->
+      <div class="col-lg-2 col-md-3 mb-4">
+        <div class="side-menu">
+          <div class="menu-logo">
+            <img src="images/menu_im.png" style="height:90px;" onerror="this.hidden=true" alt>
+          </div>
+          <div class="menu-title mb-3">Navigation</div>
+          
+          <a href="dashboard.html" class="btn active">
+            <i class="bi bi-house me-2"></i> Dashboard
+          </a>
+          <a href="supplier.html" class="btn">
+            <i class="bi bi-truck me-2"></i> Suppliers
+          </a>
+          <a href="category.html" class="btn">
+            <i class="bi bi-tags me-2"></i> Categories
+          </a>
+          <a href="products.html" class="btn">
+            <i class="bi bi-box-seam me-2"></i> Products
+          </a>
+          <a href="sales.html" class="btn">
+            <i class="bi bi-receipt me-2"></i> Sales
+          </a>
+          <a href="analytics.html" class="btn">
+            <i class="bi bi-graph-up me-2"></i> AI Analytics
+          </a>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Content -->
+      <div class="col-lg-10 col-md-9">
+        <!-- Welcome Section -->
+        <div class="dashboard-welcome">
+          <h2><i class="bi bi-speedometer2"></i> Welcome to Inventra AI Gene</h2>
+          <p class="mb-0">Your intelligent inventory management solution powered by AI</p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <h5 class="mb-3"><i class="bi bi-lightning"></i> Quick Actions</h5>
+          <a href="products.html?action=add" class="action-btn">
+            <i class="bi bi-plus-circle me-2"></i>Add Product
+          </a>
+          <a href="supplier.html?action=add" class="action-btn">
+            <i class="bi bi-truck me-2"></i>New Supplier
+          </a>
+          <a href="sales.html?action=new" class="action-btn">
+            <i class="bi bi-receipt me-2"></i>Generate Sale
+          </a>
+          <a href="analytics.html" class="action-btn">
+            <i class="bi bi-graph-up me-2"></i>View Analytics
+          </a>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-6 col-lg-3">
+            <a href="supplier.html" class="stats-box" style="background:#1abc9c" id="statSuppliers">
+              <i class="bi bi-truck fs-1 mb-2 d-block"></i>
+              Total Suppliers<br><span class="fs-2" id="suppliersCount">--</span>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <a href="category.html" class="stats-box" style="background:#3498db" id="statCategories">
+              <i class="bi bi-tags fs-1 mb-2 d-block"></i>
+              Total Categories<br><span class="fs-2" id="categoriesCount">--</span>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <a href="products.html" class="stats-box" style="background:#9b59b6" id="statProducts">
+              <i class="bi bi-box-seam fs-1 mb-2 d-block"></i>
+              Total Products<br><span class="fs-2" id="productsCount">--</span>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <a href="sales.html" class="stats-box" style="background:#e67e22" id="statSales">
+              <i class="bi bi-receipt fs-1 mb-2 d-block"></i>
+              Total Sales<br><span class="fs-2" id="salesCount">--</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="quick-actions">
+              <h5><i class="bi bi-clock-history"></i> Recent Products</h5>
+              <div id="recentProducts" class="mt-3">
+                <div class="d-flex justify-content-center">
+                  <div class="spinner-border text-primary" role="status"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="quick-actions">
+              <h5><i class="bi bi-graph-up"></i> Low Stock Alert</h5>
+              <div id="lowStockProducts" class="mt-3">
+                <div class="d-flex justify-content-center">
+                  <div class="spinner-border text-warning" role="status"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-bar mt-5">
+    Inventra AI Gene | Admin Panel - Dashboard Overview
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Initialize dashboard
+    window.onload = function() {
+      startClock();
+      refreshStats();
+      loadRecentProducts();
+      loadLowStockProducts();
+    };
+
+    // Clock functionality
+    function startClock() {
+      function update() {
+        const d = new Date();
+        const dateStr = d.toLocaleDateString('en-IN');
+        let hour = d.getHours(), min = d.getMinutes(), sec = d.getSeconds(), ap = hour >= 12 ? "PM" : "AM";
+        hour = hour % 12; if (hour == 0) hour = 12;
+        document.getElementById('clockBar').textContent =
+          `Welcome, Admin!    Date: ${dateStr}     Time: ${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')} ${ap}`;
+        setTimeout(update, 1000);
+      }
+      update();
+    }
+
+    // Stats functionality
+    async function refreshStats() {
+      try {
+        const response = await fetch('/api/stats');
+        if (!response.ok) throw new Error("Stats server error");
+        const stats = await response.json();
+        
+        document.getElementById('suppliersCount').textContent = stats.suppliers ?? "--";
+        document.getElementById('categoriesCount').textContent = stats.categories ?? "--";
+        document.getElementById('productsCount').textContent = stats.products ?? "--";
+        document.getElementById('salesCount').textContent = stats.sales ?? "--";
+      } catch (err) {
+        console.error('Error loading stats:', err);
+        document.getElementById('suppliersCount').textContent = "--";
+        document.getElementById('categoriesCount').textContent = "--";
+        document.getElementById('productsCount').textContent = "--";
+        document.getElementById('salesCount').textContent = "--";
+      }
+    }
+
+    // Load recent products
+    async function loadRecentProducts() {
+      try {
+        const response = await fetch('/api/products/recent');
+        if (!response.ok) throw new Error("Recent products error");
+        const products = await response.json();
+        
+        const container = document.getElementById('recentProducts');
+        if (products.length === 0) {
+          container.innerHTML = '<p class="text-muted">No recent products added</p>';
+          return;
+        }
+        
+        let html = '<div class="list-group">';
+        products.slice(0, 5).forEach(product => {
+          html += `
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${product.name}</strong>
+                <br><small class="text-muted">₹${product.price} - Stock: ${product.stock}</small>
+              </div>
+              <span class="badge bg-primary rounded-pill">${product.category_name || 'N/A'}</span>
+            </div>
+          `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+      } catch (err) {
+        console.error('Error loading recent products:', err);
+        document.getElementById('recentProducts').innerHTML = '<p class="text-danger">Error loading recent products</p>';
+      }
+    }
+
+    // Load low stock products
+    async function loadLowStockProducts() {
+      try {
+        const response = await fetch('/api/products/low-stock');
+        if (!response.ok) throw new Error("Low stock products error");
+        const products = await response.json();
+        
+        const container = document.getElementById('lowStockProducts');
+        if (products.length === 0) {
+          container.innerHTML = '<p class="text-success">All products are well stocked!</p>';
+          return;
+        }
+        
+        let html = '<div class="list-group">';
+        products.slice(0, 5).forEach(product => {
+          html += `
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${product.name}</strong>
+                <br><small class="text-muted">₹${product.price}</small>
+              </div>
+              <span class="badge bg-warning rounded-pill">${product.stock} left</span>
+            </div>
+          `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+      } catch (err) {
+        console.error('Error loading low stock products:', err);
+        document.getElementById('lowStockProducts').innerHTML = '<p class="text-danger">Error loading low stock alert</p>';
+      }
+    }
+
+    // Refresh button
+    document.getElementById('refreshBtn').addEventListener('click', function() {
+      refreshStats();
+      loadRecentProducts();
+      loadLowStockProducts();
+      
+      // Show refresh animation
+      this.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Refreshing...';
+      this.disabled = true;
+      
+      setTimeout(() => {
+        this.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Refresh';
+        this.disabled = false;
+      }, 2000);
+    });
+
+    // Auto refresh every 5 minutes
+    setInterval(() => {
+      refreshStats();
+      loadRecentProducts();
+      loadLowStockProducts();
+    }, 300000);
+  </script>
+</body>
+</html>

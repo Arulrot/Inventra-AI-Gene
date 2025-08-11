@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Billing Dashboard | Inventor AI Genie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --billing-primary: #e74c3c;
+      --billing-secondary: #c0392b;
+      --billing-gradient: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    }
+    
+    body {
+      background: var(--billing-gradient);
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+    
+    .billing-header {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .billing-container {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      margin: 2rem;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      min-height: 80vh;
+    }
+    
+    .billing-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-left: 5px solid var(--billing-primary);
+      margin-bottom: 2rem;
+    }
+    
+    .product-item {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+    }
+    
+    .total-section {
+      background: var(--billing-gradient);
+      color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .btn-billing {
+      background: var(--billing-gradient);
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 12px 30px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-billing:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="billing-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h1 class="text-white mb-0">
+            <i class="bi bi-receipt me-2"></i>Billing Dashboard
+          </h1>
+          <p class="text-white-50 mb-0">Generate invoices and manage sales</p>
+        </div>
+        <div class="col-md-6 text-end">
+          <a href="dashboard.html" class="btn btn-outline-light me-2">
+            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+          </a>
+          <button class="btn btn-light" onclick="startNewBill()">
+            <i class="bi bi-plus me-2"></i>New Bill
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="billing-container">
+    <!-- Customer Information -->
+    <div class="billing-card">
+      <h4 class="mb-4">
+        <i class="bi bi-person me-2"></i>Customer Information
+      </h4>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="customerName" class="form-label">Customer Name *</label>
+          <input type="text" class="form-control" id="customerName" required>
+        </div>
+        <div class="col-md-6">
+          <label for="customerPhone" class="form-label">Phone Number</label>
+          <input type="tel" class="form-control" id="customerPhone">
+        </div>
+        <div class="col-md-6">
+          <label for="customerEmail" class="form-label">Email Address</label>
+          <input type="email" class="form-control" id="customerEmail">
+        </div>
+        <div class="col-md-6">
+          <label for="billDate" class="form-label">Bill Date</label>
+          <input type="date" class="form-control" id="billDate">
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Selection -->
+    <div class="billing-card">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4><i class="bi bi-box-seam me-2"></i>Add Products</h4>
+        <span class="badge bg-primary fs-6">
+          Items: <span id="itemCount">0</span>
+        </span>
+      </div>
+      
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <label for="productSelect" class="form-label">Select Product</label>
+          <select class="form-select" id="productSelect">
+            <option value="">Choose product...</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label for="productQuantity" class="form-label">Quantity</label>
+          <input type="number" class="form-control" id="productQuantity" min="1" value="1">
+        </div>
+        <div class="col-md-2">
+          <label for="productPrice" class="form-label">Price (₹)</label>
+          <input type="number" class="form-control" id="productPrice" step="0.01" readonly>
+        </div>
+        <div class="col-md-2">
+          <label for="productTotal" class="form-label">Total (₹)</label>
+          <input type="number" class="form-control" id="productTotal" step="0.01" readonly>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">&nbsp;</label>
+          <button class="btn btn-billing w-100" onclick="addProductToBill()">
+            <i class="bi bi-plus me-1"></i>Add
+          </button>
+        </div>
+      </div>
+      
+      <!-- Selected Products -->
+      <div id="selectedProducts">
+        <div class="text-center text-muted py-4">
+          <i class="bi bi-cart display-4"></i>
+          <div class="mt-2">No products added yet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bill Summary -->
+    <div class="total-section">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h3 class="mb-0">Bill Summary</h3>
+          <p class="mb-0 opacity-75">Bill #<span id="billNumber">BILL001</span></p>
+        </div>
+        <div class="col-md-4 text-end">
+          <div class="display-4 fw-bold">₹<span id="grandTotal">0.00</span></div>
+          <small class="opacity-75">Grand Total</small>
+        </div>
+      </div>
+      
+      <div class="row mt-4 pt-3 border-top border-light">
+        <div class="col-md-6">
+          <div class="mb-2">
+            <span class="opacity-75">Subtotal:</span>
+            <span class="float-end">₹<span id="subtotal">0.00</span></span>
+          </div>
+          <div class="mb-2">
+            <span class="opacity-75">Tax (18% GST):</span>
+            <span class="float-end">₹<span id="taxAmount">0.00</span></span>
+          </div>
+          <div class="mb-2">
+            <span class="opacity-75">Discount:</span>
+            <span class="float-end">₹<span id="discountAmount">0.00</span></span>
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+          <button class="btn btn-light btn-lg me-2" onclick="clearBill()">
+            <i class="bi bi-trash me-2"></i>Clear Bill
+          </button>
+          <button class="btn btn-warning btn-lg" onclick="generateBill()">
+            <i class="bi bi-printer me-2"></i>Generate Bill
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let billItems = [];
+    let products = [];
+    let billCounter = 1;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadProducts();
+      initializeBill();
+      setupEventListeners();
+    });
+
+    function setupEventListeners() {
+      document.getElementById('productSelect').addEventListener('change', updateProductDetails);
+      document.getElementById('productQuantity').addEventListener('input', calculateProductTotal);
+      document.getElementById('billDate').value = new Date().toISOString().split('T')[0];
+    }
+
+    async function loadProducts() {
+      try {
+        const response = await fetch('/api/products');
+        if (!response.ok) throw new Error('Failed to load products');
+        
+        products = await response.json();
+        populateProductSelect();
+        
+      } catch (error) {
+        console.error('Error loading products:', error);
+        showToast('Error loading products', 'error');
+      }
+    }
+
+    function populateProductSelect() {
+      const select = document.getElementById('productSelect');
+      select.innerHTML = '<option value="">Choose product...</option>';
+      
+      products.forEach(product => {
+        if (product.current_stock > 0) {
+          select.innerHTML += `
+            <option value="${product.id}" data-price="${product.price}" data-stock="${product.current_stock}">
+              ${product.name} (Stock: ${product.current_stock}) - ₹${product.price}
+            </option>
+          `;
+        }
+      });
+    }
+
+    function updateProductDetails() {
+      const select = document.getElementById('productSelect');
+      const selectedOption = select.selectedOptions[0];
+      
+      if (selectedOption && selectedOption.value) {
+        const price = parseFloat(selectedOption.dataset.price) || 0;
+        document.getElementById('productPrice').value = price.toFixed(2);
+        calculateProductTotal();
+      } else {
+        document.getElementById('productPrice').value = '';
+        document.getElementById('productTotal').value = '';
+      }
+    }
+
+    function calculateProductTotal() {
+      const quantity = parseInt(document.getElementById('productQuantity').value) || 0;
+      const price = parseFloat(document.getElementById('productPrice').value) || 0;
+      const total = quantity * price;
+      
+      document.getElementById('productTotal').value = total.toFixed(2);
+    }
+
+    function addProductToBill() {
+      const select = document.getElementById('productSelect');
+      const quantity = parseInt(document.getElementById('productQuantity').value);
+      const price = parseFloat(document.getElementById('productPrice').value);
+      
+      if (!select.value || !quantity || quantity <= 0 || !price) {
+        showToast('Please select a product and enter valid quantity', 'warning');
+        return;
+      }
+      
+      const selectedProduct = products.find(p => p.id == select.value);
+      if (!selectedProduct) {
+        showToast('Product not found', 'error');
+        return;
+      }
+      
+      if (quantity > selectedProduct.current_stock) {
+        showToast(`Only ${selectedProduct.current_stock} items available in stock`, 'warning');
+        return;
+      }
+      
+      const item = {
+        productId: selectedProduct.id,
+        productName: selectedProduct.name,
+        quantity: quantity,
+        price: price,
+        total: quantity * price
+      };
+      
+      billItems.push(item);
+      displayBillItems();
+      clearProductForm();
+      updateBillSummary();
+      
+      showToast('Product added to bill', 'success');
+    }
+
+    function displayBillItems() {
+      const container = document.getElementById('selectedProducts');
+      
+      if (billItems.length === 0) {
+        container.innerHTML = `
+          <div class="text-center text-muted py-4">
+            <i class="bi bi-cart display-4"></i>
+            <div class="mt-2">No products added yet</div>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = billItems.map((item, index) => `
+        <div class="product-item">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="flex-grow-1">
+              <h6 class="mb-1">${item.productName}</h6>
+              <small class="text-muted">
+                Qty: ${item.quantity} × ₹${item.price.toFixed(2)} = ₹${item.total.toFixed(2)}
+              </small>
+            </div>
+            <button class="btn btn-sm btn-outline-danger" onclick="removeFromBill(${index})">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('itemCount').textContent = billItems.length;
+    }
+
+    function removeFromBill(index) {
+      billItems.splice(index, 1);
+      displayBillItems();
+      updateBillSummary();
+      showToast('Product removed from bill', 'info');
+    }
+
+    function clearProductForm() {
+      document.getElementById('productSelect').value = '';
+      document.getElementById('productQuantity').value = '1';
+      document.getElementById('productPrice').value = '';
+      document.getElementById('productTotal').value = '';
+    }
+
+    function updateBillSummary() {
+      const subtotal = billItems.reduce((sum, item) => sum + item.total, 0);
+      const taxRate = 0.18; // 18% GST
+      const taxAmount = subtotal * taxRate;
+      const discount = 0; // Can be implemented later
+      const grandTotal = subtotal + taxAmount - discount;
+      
+      document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+      document.getElementById('taxAmount').textContent = taxAmount.toFixed(2);
+      document.getElementById('discountAmount').textContent = discount.toFixed(2);
+      document.getElementById('grandTotal').textContent = grandTotal.toFixed(2);
+    }
+
+    function initializeBill() {
+      const billNumber = `BILL${Date.now().toString().slice(-6)}`;
+      document.getElementById('billNumber').textContent = billNumber;
+    }
+
+    function startNewBill() {
+      if (billItems.length > 0 && !confirm('This will clear the current bill. Continue?')) {
+        return;
+      }
+      clearBill();
+      initializeBill();
+    }
+
+    function clearBill() {
+      billItems = [];
+      document.getElementById('customerName').value = '';
+      document.getElementById('customerPhone').value = '';
+      document.getElementById('customerEmail').value = '';
+      clearProductForm();
+      displayBillItems();
+      updateBillSummary();
+      showToast('Bill cleared', 'info');
+    }
+
+    function generateBill() {
+      const customerName = document.getElementById('customerName').value.trim();
+      
+      if (!customerName) {
+        showToast('Please enter customer name', 'warning');
+        return;
+      }
+      
+      if (billItems.length === 0) {
+        showToast('Please add at least one product to the bill', 'warning');
+        return;
+      }
+      
+      // Generate bill receipt
+      const billData = {
+        billNumber: document.getElementById('billNumber').textContent,
+        date: document.getElementById('billDate').value,
+        customer: {
+          name: customerName,
+          phone: document.getElementById('customerPhone').value,
+          email: document.getElementById('customerEmail').value
+        },
+        items: billItems,
+        summary: {
+          subtotal: parseFloat(document.getElementById('subtotal').textContent),
+          tax: parseFloat(document.getElementById('taxAmount').textContent),
+          discount: parseFloat(document.getElementById('discountAmount').textContent),
+          total: parseFloat(document.getElementById('grandTotal').textContent)
+        }
+      };
+      
+      // Open bill in new window for printing
+      openBillWindow(billData);
+      
+      // Clear current bill
+      setTimeout(() => {
+        clearBill();
+        initializeBill();
+      }, 1000);
+      
+      showToast('Bill generated successfully!', 'success');
+    }
+
+    function openBillWindow(billData) {
+      const billWindow = window.open('', '_blank');
+      billWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Bill Receipt</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
+            .bill-details { margin: 20px 0; }
+            .items-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            .items-table th, .items-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            .items-table th { background-color: #f2f2f2; }
+            .summary { margin-top: 20px; text-align: right; }
+            .total { font-weight: bold; font-size: 1.2em; }
+            @media print { body { margin: 0; } }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h2>Inventor AI Genie</h2>
+            <p>AI-Powered Inventory Management</p>
+          </div>
+          
+          <div class="bill-details">
+            <p><strong>Bill No:</strong> ${billData.billNumber}</p>
+            <p><strong>Date:</strong> ${new Date(billData.date).toLocaleDateString()}</p>
+            <p><strong>Customer:</strong> ${billData.customer.name}</p>
+            ${billData.customer.phone ? `<p><strong>Phone:</strong> ${billData.customer.phone}</p>` : ''}
+          </div>
+          
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${billData.items.map(item => `
+                <tr>
+                  <td>${item.productName}</td>
+                  <td>${item.quantity}</td>
+                  <td>₹${item.price.toFixed(2)}</td>
+                  <td>₹${item.total.toFixed(2)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          
+          <div class="summary">
+            <p>Subtotal: ₹${billData.summary.subtotal.toFixed(2)}</p>
+            <p>Tax (18% GST): ₹${billData.summary.tax.toFixed(2)}</p>
+            <p>Discount: ₹${billData.summary.discount.toFixed(2)}</p>
+            <p class="total">Total: ₹${billData.summary.total.toFixed(2)}</p>
+          </div>
+          
+          <div style="margin-top: 40px; text-align: center; color: #666;">
+            <p>Thank you for your business!</p>
+            <p>Generated by Inventor AI Genie</p>
+          </div>
+          
+          <script>
+            window.onload = function() {
+              window.print();
+            }
+          </script>
+        </body>
+        </html>
+      `);
+      billWindow.document.close();
+    }
+
+    function showToast(message, type = 'info') {
+      const bgClass = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : type === 'warning' ? 'bg-warning' : 'bg-info';
+      
+      const toastHTML = `
+        <div class="toast align-items-center text-white ${bgClass} border-0" role="alert">
+          <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+          </div>
+        </div>
+      `;
+      
+      let toastContainer = document.querySelector('.toast-container');
+      if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        toastContainer.style.zIndex = '9999';
+        document.body.appendChild(toastContainer);
+      }
+      
+      toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+      const toastElement = toastContainer.lastElementChild;
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+      
+      toastElement.addEventListener('hidden.bs.toast', () => toastElement.remove());
+    }
+  </script>
+</body>
+</html>
