@@ -1,0 +1,574 @@
+{% extends "base.html" %}
+
+{% block title %}POS System - Inventa AI Gene{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Products Panel -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5><i class="fas fa-box"></i> Products</h5>
+            </div>
+            <div class="card-body">
+                <!-- Search -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" id="productSearch" class="form-control" placeholder="Search products...">
+                        <button class="btn btn-primary" onclick="searchProducts()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-secondary" onclick="loadProducts()">
+                            <i class="fas fa-list"></i> All
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Products List -->
+                <div id="productsList" style="height: 500px; overflow-y: auto;">
+                    <!-- Products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer & Cart Panel -->
+    <div class="col-md-4">
+        <!-- Customer Details -->
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">
+                <h6><i class="fas fa-user"></i> Customer Details & Loyalty</h6>
+            </div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <input type="text" id="customerName" class="form-control form-control-sm" placeholder="Name">
+                    </div>
+                    <div class="col-6">
+                        <input type="text" id="customerContact" class="form-control form-control-sm" placeholder="Mobile">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-8">
+                        <input type="email" id="customerEmail" class="form-control form-control-sm" placeholder="Email">
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-warning btn-sm" onclick="addCustomer()">Add Customer</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <small id="loyaltyPoints" class="text-primary">Loyalty Points: 0</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">Use:</span>
+                            <input type="number" id="usePoints" class="form-control" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart -->
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h6><i class="fas fa-shopping-cart"></i> Cart <span id="cartCount">(0 items)</span></h6>
+            </div>
+            <div class="card-body p-0">
+                <div id="cartItems" style="height: 250px; overflow-y: auto;">
+                    <!-- Cart items will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Controls -->
+        <div class="card mt-2">
+            <div class="card-body p-2">
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <input type="text" id="couponCode" class="form-control form-control-sm" placeholder="Coupon Code">
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-success btn-sm" onclick="applyCoupon()">Apply</button>
+                        <button class="btn btn-danger btn-sm" onclick="clearCart()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Billing Panel -->
+    <div class="col-md-4">
+        <!-- Bill Summary -->
+        <div class="card mb-3">
+            <div class="card-header bg-warning text-dark">
+                <h6><i class="fas fa-calculator"></i> Bill Summary</h6>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="bg-primary text-white p-2 rounded">
+                            <small>Bill Amount</small><br>
+                            <strong id="billAmount">₹0</strong>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="bg-success text-white p-2 rounded">
+                            <small>Discount</small><br>
+                            <input type="number" id="discountPercent" class="form-control form-control-sm text-center text-white bg-success border-0" value="5" min="0" max="100">
+                            <strong id="discountAmount">₹0</strong>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="bg-dark text-white p-2 rounded">
+                            <small>Net Pay</small><br>
+                            <strong id="netAmount">₹0</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-2">
+                    <div class="col-4">
+                        <div class="bg-info text-white p-2 rounded">
+                            <small>Coupon</small><br>
+                            <strong id="couponDiscount">₹0</strong>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="bg-secondary text-white p-2 rounded">
+                            <small>Points Used</small><br>
+                            <strong id="pointsUsed">₹0</strong>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="bg-warning text-dark p-2 rounded">
+                            <small>Points Earn</small><br>
+                            <strong id="pointsEarn">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bill Area -->
+        <div class="card mb-3">
+            <div class="card-header bg-dark text-white">
+                <h6><i class="fas fa-receipt"></i> Bill Preview</h6>
+            </div>
+            <div class="card-body">
+                <div id="billPreview" style="height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px; background: #f8f9fa; padding: 10px;">
+                    <!-- Bill preview will be shown here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-grid gap-2">
+            <button class="btn btn-success btn-lg" onclick="generateBill()">
+                <i class="fas fa-file-invoice"></i> Generate Bill
+            </button>
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-info w-100" onclick="printBill()" disabled id="printBtn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-secondary w-100" onclick="clearAll()">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let cart = [];
+let currentCustomer = null;
+let appliedCoupon = null;
+
+// Load products on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
+    
+    // Event listeners
+    document.getElementById('customerContact').addEventListener('input', checkCustomerLoyalty);
+    document.getElementById('discountPercent').addEventListener('input', updateBillSummary);
+    document.getElementById('usePoints').addEventListener('input', updateBillSummary);
+});
+
+// Load products
+function loadProducts() {
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(products => {
+            displayProducts(products);
+        });
+}
+
+// Search products
+function searchProducts() {
+    const query = document.getElementById('productSearch').value;
+    if (!query) {
+        loadProducts();
+        return;
+    }
+    
+    fetch(`/api/products/search?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(products => {
+            displayProducts(products);
+        });
+}
+
+// Display products
+function displayProducts(products) {
+    const container = document.getElementById('productsList');
+    container.innerHTML = '';
+    
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'card mb-2 product-card';
+        productCard.style.cursor = 'pointer';
+        productCard.onclick = () => addToCart(product);
+        
+        productCard.innerHTML = `
+            <div class="card-body p-2">
+                <h6 class="card-title mb-1">${product.name}</h6>
+                <p class="card-text mb-1">
+                    <strong>₹${product.price}</strong>
+                    <small class="text-muted">Stock: ${product.quantity}</small>
+                </p>
+            </div>
+        `;
+        
+        container.appendChild(productCard);
+    });
+}
+
+// Add to cart
+function addToCart(product) {
+    const existingItem = cart.find(item => item.id === product.id);
+    
+    if (existingItem) {
+        if (existingItem.quantity < product.quantity) {
+            existingItem.quantity += 1;
+        } else {
+            alert('Not enough stock available');
+            return;
+        }
+    } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+            maxStock: product.quantity
+        });
+    }
+    
+    displayCart();
+    updateBillSummary();
+}
+
+// Display cart
+function displayCart() {
+    const container = document.getElementById('cartItems');
+    const countElement = document.getElementById('cartCount');
+    
+    container.innerHTML = '';
+    
+    if (cart.length === 0) {
+        container.innerHTML = '<p class="text-center text-muted p-3">Cart is empty</p>';
+        countElement.textContent = '(0 items)';
+        return;
+    }
+    
+    countElement.textContent = `(${cart.length} items)`;
+    
+    cart.forEach((item, index) => {
+        const cartItem = document.createElement('div');
+        cartItem.className = 'border-bottom p-2';
+        
+        cartItem.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>₹${item.price} × ${item.quantity} = ₹${(item.price * item.quantity).toFixed(2)}</small>
+                </div>
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-secondary" onclick="updateCartQuantity(${index}, -1)">-</button>
+                    <button class="btn btn-outline-primary" onclick="updateCartQuantity(${index}, 1)">+</button>
+                    <button class="btn btn-outline-danger" onclick="removeFromCart(${index})">×</button>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(cartItem);
+    });
+}
+
+// Update cart quantity
+function updateCartQuantity(index, change) {
+    const item = cart[index];
+    const newQuantity = item.quantity + change;
+    
+    if (newQuantity <= 0) {
+        removeFromCart(index);
+    } else if (newQuantity <= item.maxStock) {
+        item.quantity = newQuantity;
+        displayCart();
+        updateBillSummary();
+    } else {
+        alert('Not enough stock available');
+    }
+}
+
+// Remove from cart
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    displayCart();
+    updateBillSummary();
+}
+
+// Clear cart
+function clearCart() {
+    cart = [];
+    displayCart();
+    updateBillSummary();
+}
+
+// Check customer loyalty
+function checkCustomerLoyalty() {
+    const contact = document.getElementById('customerContact').value;
+    if (contact.length >= 5) {
+        fetch(`/api/customers/${contact}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Customer not found');
+                }
+            })
+            .then(customer => {
+                currentCustomer = customer;
+                document.getElementById('customerName').value = customer.name;
+                document.getElementById('customerEmail').value = customer.email || '';
+                document.getElementById('loyaltyPoints').textContent = `Loyalty Points: ${customer.loyalty_points}`;
+                document.getElementById('usePoints').max = customer.loyalty_points;
+            })
+            .catch(() => {
+                currentCustomer = null;
+                document.getElementById('loyaltyPoints').textContent = 'Loyalty Points: 0 (New Customer)';
+                document.getElementById('usePoints').max = 0;
+                document.getElementById('usePoints').value = 0;
+            });
+    }
+}
+
+// Add customer
+function addCustomer() {
+    const name = document.getElementById('customerName').value;
+    const email = document.getElementById('customerEmail').value;
+    const contact = document.getElementById('customerContact').value;
+    
+    if (!name || !contact) {
+        alert('Please enter customer name and mobile number');
+        return;
+    }
+    
+    fetch('/api/customers', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name, email, contact})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Customer added successfully!');
+            checkCustomerLoyalty();
+        } else {
+            alert(data.error);
+        }
+    });
+}
+
+// Apply coupon
+function applyCoupon() {
+    const couponCode = document.getElementById('couponCode').value;
+    if (!couponCode) {
+        alert('Please enter coupon code');
+        return;
+    }
+    
+    const billAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    fetch('/api/coupons/validate', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({code: couponCode, amount: billAmount})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            appliedCoupon = data;
+            alert(data.message);
+            updateBillSummary();
+        }
+    });
+}
+
+// Update bill summary
+function updateBillSummary() {
+    const billAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discountPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
+    const discountAmount = (billAmount * discountPercent) / 100;
+    const couponDiscountAmount = appliedCoupon ? appliedCoupon.discount : 0;
+    const pointsUsed = parseInt(document.getElementById('usePoints').value) || 0;
+    const pointsUsedAmount = pointsUsed;
+    
+    const netAmount = Math.max(0, billAmount - discountAmount - couponDiscountAmount - pointsUsedAmount);
+    const pointsToEarn = Math.floor(netAmount / 100);
+    
+    document.getElementById('billAmount').textContent = `₹${billAmount.toFixed(2)}`;
+    document.getElementById('discountAmount').textContent = `₹${discountAmount.toFixed(2)}`;
+    document.getElementById('couponDiscount').textContent = `₹${couponDiscountAmount.toFixed(2)}`;
+    document.getElementById('pointsUsed').textContent = `₹${pointsUsedAmount.toFixed(2)}`;
+    document.getElementById('netAmount').textContent = `₹${netAmount.toFixed(2)}`;
+    document.getElementById('pointsEarn').textContent = pointsToEarn;
+    
+    updateBillPreview();
+}
+
+// Update bill preview
+function updateBillPreview() {
+    const preview = document.getElementById('billPreview');
+    const customerName = document.getElementById('customerName').value || 'Walk-in Customer';
+    const customerContact = document.getElementById('customerContact').value || 'N/A';
+    const customerEmail = document.getElementById('customerEmail').value || 'N/A';
+    
+    let billText = `
+    ==========================================
+            INVENTA AI GENE STORE
+        Phone: 9899459288, Delhi-110053
+    ==========================================
+    Customer: ${customerName}
+    Mobile: ${customerContact}
+    Email: ${customerEmail}
+    Date: ${new Date().toLocaleDateString()}
+    ==========================================
+    ITEMS:
+    ==========================================
+    `;
+    
+    cart.forEach(item => {
+        billText += `\n${item.name.padEnd(20)} ${item.quantity.toString().padStart(3)} × ₹${item.price.toFixed(2).padStart(8)} = ₹${(item.price * item.quantity).toFixed(2).padStart(8)}`;
+    });
+    
+    const billAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discountAmount = (billAmount * parseFloat(document.getElementById('discountPercent').value)) / 100;
+    const couponDiscountAmount = appliedCoupon ? appliedCoupon.discount : 0;
+    const pointsUsedAmount = parseInt(document.getElementById('usePoints').value) || 0;
+    const netAmount = Math.max(0, billAmount - discountAmount - couponDiscountAmount - pointsUsedAmount);
+    const pointsToEarn = Math.floor(netAmount / 100);
+    
+    billText += `
+    ==========================================
+    Subtotal:                     ₹${billAmount.toFixed(2).padStart(8)}
+    Discount (${document.getElementById('discountPercent').value}%):                ₹${discountAmount.toFixed(2).padStart(8)}
+    Coupon Discount:              ₹${couponDiscountAmount.toFixed(2).padStart(8)}
+    Points Used:                  ₹${pointsUsedAmount.toFixed(2).padStart(8)}
+    ==========================================
+    NET TOTAL:                    ₹${netAmount.toFixed(2).padStart(8)}
+    ==========================================
+    Points Earned: ${pointsToEarn}
+    
+    Thank you for shopping with us!
+    ==========================================
+    `;
+    
+    preview.textContent = billText;
+}
+
+// Generate bill
+function generateBill() {
+    const customerName = document.getElementById('customerName').value;
+    const customerContact = document.getElementById('customerContact').value;
+    
+    if (!customerName || !customerContact) {
+        alert('Customer details are required');
+        return;
+    }
+    
+    if (cart.length === 0) {
+        alert('Please add products to cart');
+        return;
+    }
+    
+    const billData = {
+        customer_name: customerName,
+        customer_contact: customerContact,
+        customer_email: document.getElementById('customerEmail').value,
+        bill_amount: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+        discount_amount: (cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * parseFloat(document.getElementById('discountPercent').value)) / 100,
+        coupon_discount: appliedCoupon ? appliedCoupon.discount : 0,
+        coupon_id: appliedCoupon ? appliedCoupon.coupon_id : null,
+        points_used: parseInt(document.getElementById('usePoints').value) || 0,
+        net_amount: parseFloat(document.getElementById('netAmount').textContent.replace('₹', '')),
+        items: cart
+    };
+    
+    fetch('/api/sales', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(billData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(`Bill generated successfully! Invoice: ${data.invoice_no}\nPoints Earned: ${data.points_earned}`);
+            document.getElementById('printBtn').disabled = false;
+            loadProducts(); // Refresh products to update quantities
+        } else {
+            alert('Error generating bill');
+        }
+    });
+}
+
+// Print bill
+function printBill() {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Print Bill</title></head><body>');
+    printWindow.document.write('<pre>' + document.getElementById('billPreview').textContent + '</pre>');
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+}
+
+// Clear all
+function clearAll() {
+    if (confirm('Are you sure you want to clear all data?')) {
+        cart = [];
+        currentCustomer = null;
+        appliedCoupon = null;
+        
+        document.getElementById('customerName').value = '';
+        document.getElementById('customerContact').value = '';
+        document.getElementById('customerEmail').value = '';
+        document.getElementById('couponCode').value = '';
+        document.getElementById('discountPercent').value = '5';
+        document.getElementById('usePoints').value = '0';
+        document.getElementById('loyaltyPoints').textContent = 'Loyalty Points: 0';
+        document.getElementById('printBtn').disabled = true;
+        
+        displayCart();
+        updateBillSummary();
+    }
+}
+</script>
+{% endblock %}

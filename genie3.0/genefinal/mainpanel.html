@@ -109,9 +109,9 @@
       if(username === user.username && password === user.password) {
         // Redirect based on section
         if(section === 'administrator') {
-          window.location.href = 'admindash.html';
+          window.location.href = 'dashboard.html';
         } else if(section === 'billing') {
-          window.location.href = 'billing_dashboard.html';
+          window.location.href = 'billing/templates/index.html';
         }
       } else {
         showError('Incorrect username or password for ' + section + '.');

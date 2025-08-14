@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron bg-primary text-white p-5 rounded mb-4">
+            <div class="text-center">
+                <h1 class="display-4"><i class="fas fa-store"></i> Inventa AI Gene</h1>
+                <p class="lead">Advanced Point of Sale System with Loyalty & Coupons</p>
+                <hr class="my-4">
+                <p>Complete inventory management and billing solution for modern businesses</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-cash-register fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Point of Sale</h5>
+                <p class="card-text">Complete POS system with cart management, billing, and customer loyalty features.</p>
+                <a href="/pos" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Start Selling
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-history fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Sales History</h5>
+                <p class="card-text">View and search through all your sales transactions with detailed reports.</p>
+                <a href="/bill-history" class="btn btn-info">
+                    <i class="fas fa-chart-line"></i> View Reports
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-tags fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Coupon Management</h5>
+                <p class="card-text">Create and manage discount coupons to boost sales and customer engagement.</p>
+                <a href="/coupon-manager" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Manage Coupons
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5><i class="fas fa-star"></i> Features</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Real-time inventory management</li>
+                            <li><i class="fas fa-check text-success"></i> Customer loyalty points system</li>
+                            <li><i class="fas fa-check text-success"></i> Discount coupon management</li>
+                            <li><i class="fas fa-check text-success"></i> Comprehensive sales reporting</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Customer database management</li>
+                            <li><i class="fas fa-check text-success"></i> Multi-level discount system</li>
+                            <li><i class="fas fa-check text-success"></i> Print-ready bill generation</li>
+                            <li><i class="fas fa-check text-success"></i> Web-based responsive interface</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

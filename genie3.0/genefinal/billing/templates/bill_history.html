@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Bill History - Inventa AI Gene{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-history"></i> Sales History</h5>
+            </div>
+            <div class="card-body">
+                <!-- Search -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <select id="searchType" class="form-select">
+                            <option value="invoice_no">Invoice No</option>
+                            <option value="customer_name">Customer Name</option>
+                            <option value="customer_contact">Contact</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="searchQuery" class="form-control" placeholder="Search...">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary" onclick="searchSales()">Search</button>
+                        <button class="btn btn-secondary" onclick="loadSales()">Show All</button>
+                    </div>
+                </div>
+                
+                <!-- Sales Table -->
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Invoice No</th>
+                                <th>Customer</th>
+                                <th>Contact</th>
+                                <th>Bill Amount</th>
+                                <th>Net Amount</th>
+                                <th>Points Earned</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesTableBody">
+                            <!-- Sales data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bill Details Modal -->
+<div class="modal fade" id="billDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bill Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="billDetailsContent"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadSales();
+});
+
+function loadSales() {
+    fetch('/api/sales')
+        .then(response => response.json())
+        .then(sales => {
+            displaySales(sales);
+        });
+}
+
+function searchSales() {
+    const searchType = document.getElementById('searchType').value;
+    const query = document.getElementById('searchQuery').value;
+    
+    if (!query) {
+        loadSales();
+        return;
+    }
+    
+    fetch(`/api/sales/search?type=${searchType}&q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(sales => {
+            displaySales(sales);
+        });
+}
+
+function displaySales(sales) {
+    const tbody = document.getElementById('salesTableBody');
+    tbody.innerHTML = '';
+    
+    sales.forEach(sale => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${sale.invoice_no}</td>
+            <td>${sale.customer_name}</td>
+            <td>${sale.customer_contact}</td>
+            <td>₹${parseFloat(sale.bill_amount).toFixed(2)}</td>
+            <td>₹${parseFloat(sale.net_amount).toFixed(2)}</td>
+            <td>${sale.points_earned}</td>
+            <td>${new Date(sale.created_at).toLocaleDateString()}</td>
+            <td>
+                <button class="btn btn-sm btn-info" onclick="viewBillDetails('${sale.invoice_no}', '${sale.customer_name}', '${sale.customer_contact}', '${sale.customer_email || ''}', '${sale.bill_amount}', '${sale.discount_amount}', '${sale.coupon_discount}', '${sale.points_used}', '${sale.net_amount}', '${sale.points_earned}', '${sale.created_at}', '${sale.items_json}')">
+                    <i class="fas fa-eye"></i> View
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function viewBillDetails(invoiceNo, customerName, customerContact, customerEmail, billAmount, discountAmount, couponDiscount, pointsUsed, netAmount, pointsEarned, createdAt, itemsJson) {
+    const items = JSON.parse(itemsJson);
+    
+    let billContent = `
+        <div class="bill-details" style="font-family: monospace;">
+            <div class="text-center mb-3">
+                <h4>INVENTA AI GENE STORE</h4>
+                <p>Phone: 9899459288, Delhi-110053</p>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-6">
+                    <strong>Invoice No:</strong> ${invoiceNo}<br>
+                    <strong>Date:</strong> ${new Date(createdAt).toLocaleString()}
+                </div>
+                <div class="col-6">
+                    <strong>Customer:</strong> ${customerName}<br>
+                    <strong>Mobile:</strong> ${customerContact}<br>
+                    <strong>Email:</strong> ${customerEmail || 'N/A'}
+                </div>
+            </div>
+            <hr>
+            <h6>Items:</h6>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+    
+    items.forEach(item => {
+        billContent += `
+            <tr>
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+                <td>₹${parseFloat(item.price).toFixed(2)}</td>
+                <td>₹${(parseFloat(item.price) * parseInt(item.quantity)).toFixed(2)}</td>
+            </tr>
+        `;
+    });
+    
+    billContent += `
+                </tbody>
+            </table>
+            <hr>
+            <div class="row">
+                <div class="col-6 ms-auto">
+                    <table class="table table-sm">
+                        <tr>
+                            <td><strong>Subtotal:</strong></td>
+                            <td class="text-end">₹${parseFloat(billAmount).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Discount:</strong></td>
+                            <td class="text-end">₹${parseFloat(discountAmount).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Coupon Discount:</strong></td>
+                            <td class="text-end">₹${parseFloat(couponDiscount).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Points Used:</strong></td>
+                            <td class="text-end">₹${parseFloat(pointsUsed).toFixed(2)}</td>
+                        </tr>
+                        <tr class="border-top">
+                            <td><strong>Net Total:</strong></td>
+                            <td class="text-end"><strong>₹${parseFloat(netAmount).toFixed(2)}</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Points Earned:</strong></td>
+                            <td class="text-end"><strong>${pointsEarned}</strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('billDetailsContent').innerHTML = billContent;
+    new bootstrap.Modal(document.getElementById('billDetailsModal')).show();
+}
+</script>
+{% endblock %}

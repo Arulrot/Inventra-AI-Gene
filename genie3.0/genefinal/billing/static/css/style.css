@@ -1,0 +1,109 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.product-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-color: #007bff;
+}
+
+.bill-details {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border: none;
+    font-weight: bold;
+}
+
+.btn {
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.table {
+    font-size: 0.9rem;
+}
+
+.jumbotron {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+}
+
+#billPreview {
+    white-space: pre-line;
+    font-size: 11px;
+}
+
+.input-group-sm .form-control {
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .col-md-4 {
+        margin-bottom: 20px;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+}
+
+/* Custom animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.product-card {
+    animation: slideIn 0.3s ease;
+}
+
+/* Print styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    .bill-details,
+    .bill-details * {
+        visibility: visible;
+    }
+    
+    .bill-details {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
