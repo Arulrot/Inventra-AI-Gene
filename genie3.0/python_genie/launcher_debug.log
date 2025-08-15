@@ -1,0 +1,14 @@
+2025-08-15 00:59:27.099531 - Attempting login: section='Administrator Panel', user='admin'
+2025-08-15 00:59:28.622300 - Login successful for Administrator Panel
+2025-08-15 00:59:28.665165 - Resolved script path: C:\VScode\Github Repos\Inventra-AI-Gene\genie3.0\python_genie\admin\mainpannel.py
+2025-08-15 00:59:34.774351 - ERROR - file not found.
+2025-08-15 01:00:14.660413 - Attempting login: section='Administrator Panel', user='admin'
+2025-08-15 01:00:16.650053 - Login successful for Administrator Panel
+2025-08-15 01:00:16.688678 - Resolved script path: C:\VScode\Github Repos\Inventra-AI-Gene\genie3.0\python_genie\admin\admin\dashboard_tk.py
+2025-08-15 01:00:19.433820 - ERROR - file not found.
+2025-08-15 01:00:38.421101 - Attempting login: section='Administrator Panel', user='admin'
+2025-08-15 01:00:40.411129 - Login successful for Administrator Panel
+2025-08-15 01:00:40.445297 - Resolved script path: C:\VScode\Github Repos\Inventra-AI-Gene\genie3.0\python_genie\admin\dashboard_tk.py
+2025-08-15 01:00:40.445297 - Launching subprocess: c:\Users\HP\AppData\Local\Programs\Python\Python310\python.exe C:\VScode\Github Repos\Inventra-AI-Gene\genie3.0\python_genie\admin\dashboard_tk.py
+
+---- NEW LAUNCH: 2025-08-15 01:00:40.446763 ----
