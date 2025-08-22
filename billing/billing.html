@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventor AI Genie | Billing Module</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --accent-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.12);
+      --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+    
+    body {
+      background: var(--primary-gradient);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    
+    /* Enhanced Header */
+    .header {
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 1.2rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow-light);
+    }
+    
+    .brand {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: white;
+      text-decoration: none;
+      text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    .brand:hover {
+      color: white;
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+    
+    .brand i {
+      font-size: 2.1rem;
+      margin-right: 0.7rem;
+    }
+    
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .user-info {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-medium);
+    }
+    
+    .nav-btn.logout {
+      background: rgba(220, 53, 69, 0.2);
+      border-color: rgba(220, 53, 69, 0.3);
+    }
+    
+    .nav-btn.logout:hover {
+      background: rgba(220, 53, 69, 0.3);
+    }
+    
+    /* Enhanced Main Content */
+    .main-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 120px);
+      padding: 2.5rem;
+    }
+    
+    .content-card {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 28px;
+      padding: 4.5rem 3rem;
+      max-width: 900px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-heavy);
+      animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .content-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--accent-gradient);
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(60px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    /* Enhanced Status Badge */
+    .status-badge {
+      background: var(--accent-gradient);
+      color: white;
+      padding: 0.7rem 2rem;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: var(--shadow-medium);
+      position: relative;
+    }
+    
+    .status-badge::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -10px;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      background: #ff6b6b;
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+    
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+      50% { opacity: 0.7; transform: translateY(-50%) scale(1.2); }
+    }
+    
+    /* Enhanced Icon */
+    .main-icon {
+      width: 140px;
+      height: 140px;
+      background: var(--secondary-gradient);
+      border-radius: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2.5rem;
+      position: relative;
+      animation: float 6s ease-in-out infinite;
+      box-shadow: var(--shadow-medium);
+    }
+    
+    .main-icon::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: var(--secondary-gradient);
+      border-radius: 45px;
+      opacity: 0.2;
+      animation: pulse-ring 3s infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-10px) rotate(2deg); }
+      66% { transform: translateY(5px) rotate(-1deg); }
+    }
+    
+    @keyframes pulse-ring {
+      0% { transform: scale(1); opacity: 0.2; }
+      50% { transform: scale(1.1); opacity: 0.1; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+    
+    .main-icon i {
+      font-size: 4.5rem;
+      color: white;
+      z-index: 2;
+      position: relative;
+    }
+    
+    /* Enhanced Typography */
+    .main-title {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #1a202c;
+      margin-bottom: 1.2rem;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      font-size: 1.4rem;
+      color: #4a5568;
+      margin-bottom: 2.5rem;
+      font-weight: 600;
+    }
+    
+    .description {
+      font-size: 1.15rem;
+      color: #2d3748;
+      line-height: 1.8;
+      margin-bottom: 3.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 500;
+    }
+    
+    /* Enhanced Progress Section */
+    .progress-section {
+      margin: 4rem 0;
+      text-align: left;
+    }
+    
+    .progress-title {
+      color: #1a202c;
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    
+    .progress-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .progress-item {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-light);
+      border: 1px solid #e2e8f0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .progress-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--accent-gradient);
+    }
+    
+    .progress-item:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-heavy);
+    }
+    
+    .progress-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--accent-gradient);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-light);
+    }
+    
+    .progress-icon i {
+      color: white;
+      font-size: 1.8rem;
+    }
+    
+    .progress-label {
+      color: #1a202c;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.7rem;
+    }
+    
+    .progress-status {
+      color: #4a5568;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    
+    .progress-bar {
+      background: #e2e8f0;
+      border-radius: 10px;
+      height: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--secondary-gradient);
+      border-radius: 10px;
+      transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    /* Enhanced Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 4rem 0 3rem 0;
+    }
+    
+    .btn-primary {
+      background: var(--primary-gradient);
+      border: none;
+      border-radius: 16px;
+      padding: 1.2rem 3rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      box-shadow: var(--shadow-medium);
+      font-size: 1.1rem;
+      letter-spacing: 0.3px;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-heavy);
+      color: white;
+      text-decoration: none;
+    }
+    
+    .btn-secondary {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 1.2rem 3rem;
+      font-weight: 700;
+      color: #4a5568;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      box-shadow: var(--shadow-light);
+      font-size: 1.1rem;
+      letter-spacing: 0.3px;
+    }
+    
+    .btn-secondary:hover {
+      background: #f7fafc;
+      border-color: #667eea;
+      color: #667eea;
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-medium);
+      text-decoration: none;
+    }
+    
+    /* Enhanced Newsletter */
+    .newsletter {
+      background: linear-gradient(145deg, #f8fafc 0%, #edf2f7 100%);
+      border-radius: 24px;
+      padding: 3rem;
+      margin-top: 4rem;
+      border: 2px solid #e2e8f0;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    }
+    
+    .newsletter-title {
+      color: #1a202c;
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .newsletter-desc {
+      color: #4a5568;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      gap: 1rem;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+    
+    .newsletter-input {
+      flex-grow: 1;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 1rem 1.5rem;
+      color: #1a202c;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .newsletter-input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .newsletter-input::placeholder {
+      color: #a0aec0;
+    }
+    
+    .newsletter-btn {
+      background: var(--accent-gradient);
+      border: none;
+      border-radius: 14px;
+      padding: 1rem 2rem;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+    }
+    
+    .newsletter-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-medium);
+    }
+    
+    /* Access Denied Modal */
+    .access-denied-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .access-denied-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .access-denied-modal {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      transform: scale(0.8);
+      transition: all 0.3s ease;
+    }
+    
+    .access-denied-overlay.show .access-denied-modal {
+      transform: scale(1);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .user-info {
+        order: 2;
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+      }
+      
+      .content-card {
+        padding: 3rem 2rem;
+        margin: 1rem;
+      }
+      
+      .main-title {
+        font-size: 2.5rem;
+      }
+      
+      .progress-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .content-card {
+        padding: 2.5rem 1.5rem;
+      }
+      
+      .main-title {
+        font-size: 2rem;
+      }
+      
+      .main-icon {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .main-icon i {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Access Denied Modal -->
+  <div class="access-denied-overlay" id="accessDeniedOverlay">
+    <div class="access-denied-modal">
+      <div style="color: #dc3545; font-size: 4rem; margin-bottom: 1rem;">
+        <i class="bi bi-shield-exclamation"></i>
+      </div>
+      <h3 style="color: #1a202c; margin-bottom: 1rem;">Access Denied</h3>
+      <p style="color: #4a5568; margin-bottom: 2rem;">
+        You must be logged in to access the billing module. Please sign in with your credentials.
+      </p>
+      <button onclick="redirectToLogin()" style="background: var(--primary-gradient); color: white; border: none; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; cursor: pointer;">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Go to Login
+      </button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <a href="../loginpage.html" class="brand">
+          <i class="bi bi-robot"></i>Inventor AI Genie
+        </a>
+        <div class="nav-actions">
+          <div class="user-info" id="userInfo">
+            <i class="bi bi-person-circle me-2"></i>
+            <span id="userName">Guest</span>
+          </div>
+          <a href="../loginpage.html" class="nav-btn">
+            <i class="bi bi-grid"></i>RETURN To DASHBOARD
+          </a>
+          <a href="#" onclick="logout()" class="nav-btn logout">
+            <i class="bi bi-box-arrow-right"></i>Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="content-card">
+      <!-- Status Badge -->
+      <div class="status-badge">
+        <i class="bi bi-tools me-2"></i>Under Development
+      </div>
+
+      <!-- Main Icon -->
+      <div class="main-icon">
+        <i class="bi bi-receipt"></i>
+      </div>
+
+      <!-- Title Section -->
+      <h1 class="main-title">Billing Module</h1>
+      <p class="subtitle">Next-Generation Financial Management</p>
+      <p class="description">
+        Experience the future of financial management with our AI-powered billing system. 
+        Featuring intelligent invoice generation, automated payment tracking, predictive analytics, 
+        and seamless integration with your inventory management platform.
+      </p>
+
+      <!-- Progress Section -->
+      <div class="progress-section">
+        <h3 class="progress-title">Development Roadmap</h3>
+        <div class="progress-grid">
+          <div class="progress-item">
+            <div class="progress-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="progress-label">System Architecture</div>
+            <div class="progress-status">Completed • 70%</div>
+            <div class="progress-bar">
+              <div class="progress-fill" data-width="100" style="width: 0%;"></div>
+            </div>
+          </div>
+          
+          <div class="progress-item">
+            <div class="progress-icon">
+              <i class="bi bi-code-slash"></i>
+            </div>
+            <div class="progress-label">Core Development</div>
+            <div class="progress-status">In Progress • 20%</div>
+            <div class="progress-bar">
+              <div class="progress-fill" data-width="78" style="width: 0%;"></div>
+            </div>
+          </div>
+          
+          <div class="progress-item">
+            <div class="progress-icon">
+              <i class="bi bi-palette2"></i>
+            </div>
+            <div class="progress-label">UI/UX Design</div>
+            <div class="progress-status">Design Phase • 45%</div>
+            <div class="progress-bar">
+              <div class="progress-fill" data-width="45" style="width: 0%;"></div>
+            </div>
+          </div>
+          
+          <div class="progress-item">
+            <div class="progress-icon">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <div class="progress-label">Security & Testing</div>
+            <div class="progress-status">Planning • 15%</div>
+            <div class="progress-bar">
+              <div class="progress-fill" data-width="15" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <a href="../loginpage.html" class="btn-primary">
+          <i class="bi bi-arrow-left"></i>
+          Return to Dashboard
+        </a>
+        <a href="#" onclick="logout()" class="btn-secondary">
+          <i class="bi bi-box-arrow-right"></i>
+          Sign Out
+        </a>
+      </div>
+
+      <!-- Newsletter Signup -->
+      <div class="newsletter">
+        <h4 class="newsletter-title">
+          <i class="bi bi-bell me-2"></i>Early Access Notification
+        </h4>
+        <p class="newsletter-desc">
+          Join our exclusive list to get priority access when the billing module launches
+        </p>
+        <form class="newsletter-form" onsubmit="handleNewsletterSignup(event)">
+          <input 
+            type="email" 
+            class="newsletter-input" 
+            placeholder="Enter your professional email" 
+            required
+          >
+          <button type="submit" class="newsletter-btn">
+            <i class="bi bi-send me-1"></i>Notify Me
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Authentication check on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      checkAuthentication();
+      initializeProgressBars();
+      updateUserInterface();
+    });
+
+    // Check if user is authenticated
+    function checkAuthentication() {
+      const userRole = localStorage.getItem('userRole');
+      const username = localStorage.getItem('username');
+      const loginTime = localStorage.getItem('loginTime');
+      
+      // Check if user is logged in and session is valid
+      if (!userRole || !username || !loginTime) {
+        showAccessDenied();
+        return false;
+      }
+      
+      // Check session expiry (24 hours)
+      const loginDate = new Date(loginTime);
+      const now = new Date();
+      const hoursDiff = (now - loginDate) / (1000 * 60 * 60);
+      
+      if (hoursDiff > 24) {
+        clearSession();
+        showAccessDenied();
+        return false;
+      }
+      
+      // Check if user has billing access
+      if (userRole !== 'billing' && userRole !== 'admin') {
+        showAccessDenied('You do not have permission to access the billing module.');
+        return false;
+      }
+      
+      return true;
+    }
+
+    // Show access denied modal
+    function showAccessDenied(customMessage = null) {
+      const overlay = document.getElementById('accessDeniedOverlay');
+      if (customMessage) {
+        const messageElement = overlay.querySelector('p');
+        messageElement.textContent = customMessage;
+      }
+      overlay.classList.add('show');
+      
+      // Auto redirect after 5 seconds
+      setTimeout(() => {
+        redirectToLogin();
+      }, 5000);
+    }
+
+    // Update user interface with user info
+    function updateUserInterface() {
+      const username = localStorage.getItem('username');
+      const userRole = localStorage.getItem('userRole');
+      
+      if (username && userRole) {
+        const userNameElement = document.getElementById('userName');
+        const userInfoElement = document.getElementById('userInfo');
+        
+        userNameElement.textContent = `${username} (${userRole})`;
+        
+        // Add role-specific styling
+        if (userRole === 'billing') {
+          userInfoElement.style.background = 'rgba(79, 172, 254, 0.2)';
+          userInfoElement.style.borderColor = 'rgba(79, 172, 254, 0.3)';
+        }
+      }
+    }
+
+    // Initialize progress bar animations
+    function initializeProgressBars() {
+      setTimeout(() => {
+        document.querySelectorAll('.progress-fill').forEach((fill, index) => {
+          setTimeout(() => {
+            const targetWidth = fill.getAttribute('data-width');
+            fill.style.width = `${targetWidth}%`;
+          }, index * 400);
+        });
+      }, 800);
+    }
+
+    // Newsletter signup handler
+    function handleNewsletterSignup(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input[type="email"]').value;
+      const btn = event.target.querySelector('button');
+      const originalHTML = btn.innerHTML;
+      
+      // Show loading state
+      btn.innerHTML = '<i class="bi bi-hourglass-split me-1"></i>Processing...';
+      btn.disabled = true;
+      
+      // Simulate API call
+      setTimeout(() => {
+        btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i>Subscribed!';
+        btn.style.background = 'var(--success-gradient)';
+        
+        // Store email with timestamp
+        const subscriptionData = {
+          email: email,
+          timestamp: new Date().toISOString(),
+          userRole: localStorage.getItem('userRole'),
+          username: localStorage.getItem('username')
+        };
+        localStorage.setItem('billingNotificationEmail', JSON.stringify(subscriptionData));
+        
+        // Show success message
+        setTimeout(() => {
+          const form = event.target;
+          form.innerHTML = `
+            <div style="background: linear-gradient(145deg, #d4edda 0%, #c3e6cb 100%); color: #155724; padding: 1.5rem; border-radius: 16px; text-align: center; border: 1px solid #c3e6cb;">
+              <i class="bi bi-check-circle-fill me-2" style="font-size: 1.2rem;"></i>
+              <strong>Successfully subscribed!</strong><br>
+              <small style="opacity: 0.8;">We'll notify you as soon as the billing module is ready for production use.</small>
+            </div>
+          `;
+        }, 1500);
+      }, 2000);
+    }
+
+    // Logout function
+    function logout() {
+      // Show confirmation
+      if (confirm('Are you sure you want to sign out?')) {
+        clearSession();
+        redirectToLogin();
+      }
+    }
+
+    // Clear user session
+    function clearSession() {
+      localStorage.removeItem('userRole');
+      localStorage.removeItem('username');
+      localStorage.removeItem('loginTime');
+      localStorage.removeItem('sessionToken');
+    }
+
+    // Redirect to login page
+    function redirectToLogin() {
+      // Add fade out effect
+      document.body.style.opacity = '0';
+      document.body.style.transition = 'opacity 0.3s ease';
+      
+      setTimeout(() => {
+        window.location.href = '../loginpage.html';
+      }, 300);
+    }
+
+    // Prevent back button bypass
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted || performance.navigation.type === 2) {
+        checkAuthentication();
+      }
+    });
+
+    // Session monitoring
+    setInterval(() => {
+      if (!checkAuthentication()) {
+        showAccessDenied('Your session has expired. Please log in again.');
+      }
+    }, 300000); // Check every 5 minutes
+  </script>
+</body>
+</html>

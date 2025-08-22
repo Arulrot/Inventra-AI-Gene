@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Automation | Professional Inventory Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark: #1d4ed8;
+      --success-color: #059669;
+      --warning-color: #d97706;
+      --danger-color: #dc2626;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+    
+    .main-container {
+      background: white;
+      border-radius: 24px;
+      margin: 1.5rem;
+      padding: 0;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .header-section {
+      background: linear-gradient(135deg, var(--success-color), #047857);
+      color: white;
+      padding: 2rem 2.5rem;
+      position: relative;
+    }
+    
+    .header-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='m36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+      opacity: 0.1;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .header-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .header-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+    
+    .content-section {
+      padding: 2.5rem;
+    }
+    
+    .professional-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      margin-bottom: 2rem;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .professional-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .card-header-professional {
+      background: linear-gradient(135deg, var(--gray-50), white);
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    .card-title-professional {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .card-body-professional {
+      padding: 2rem;
+    }
+    
+    .btn-professional {
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      border: none;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .btn-primary-pro {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.25);
+    }
+    
+    .btn-primary-pro:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.35);
+      color: white;
+    }
+    
+    .btn-success-pro {
+      background: linear-gradient(135deg, var(--success-color), #047857);
+      color: white;
+      box-shadow: 0 4px 14px 0 rgba(5, 150, 105, 0.25);
+    }
+    
+    .btn-success-pro:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px 0 rgba(5, 150, 105, 0.35);
+      color: white;
+    }
+    
+    .btn-success-pro:disabled {
+      background: var(--gray-400);
+      box-shadow: none;
+      transform: none;
+    }
+    
+    .btn-outline-pro {
+      background: white;
+      color: var(--gray-700);
+      border: 2px solid var(--gray-300);
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-outline-pro:hover {
+      background: var(--gray-50);
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+    
+    .supplier-card-pro {
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .supplier-card-pro.selected {
+      border-color: var(--success-color);
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -3px rgba(5, 150, 105, 0.1), 0 4px 6px -2px rgba(5, 150, 105, 0.05);
+    }
+    
+    .supplier-card-pro:hover:not(.selected) {
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+    
+    .supplier-header-pro {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    .supplier-checkbox-pro {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--success-color);
+      margin-right: 1rem;
+    }
+    
+    .supplier-info h6 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin-bottom: 0.25rem;
+    }
+    
+    .supplier-email {
+      color: var(--gray-500);
+      font-size: 0.875rem;
+    }
+    
+    .supplier-stats {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    
+    .stat-badge {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .form-control-pro {
+      border: 2px solid var(--gray-300);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    
+    .form-control-pro:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .qty-input-pro {
+      width: 80px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary-color);
+      border: 2px solid var(--gray-300);
+      border-radius: 8px;
+      padding: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    
+    .qty-input-pro:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .table-pro {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--gray-200);
+    }
+    
+    .table-pro thead th {
+      background: linear-gradient(135deg, var(--gray-800), var(--gray-700));
+      color: white;
+      font-weight: 600;
+      padding: 1rem 0.75rem;
+      border: none;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+    
+    .table-pro tbody td {
+      padding: 1rem 0.75rem;
+      vertical-align: middle;
+      border-color: var(--gray-200);
+      font-weight: 500;
+    }
+    
+    .table-pro tbody tr:hover {
+      background-color: var(--gray-50);
+    }
+    
+    .status-badge {
+      padding: 0.375rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+    
+    .status-critical {
+      background: linear-gradient(135deg, var(--danger-color), #b91c1c);
+      color: white;
+    }
+    
+    .status-low {
+      background: linear-gradient(135deg, var(--warning-color), #b45309);
+      color: white;
+    }
+    
+    .required-qty {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .custom-message-section {
+      background: linear-gradient(135deg, var(--gray-50), white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    
+    .alert-pro {
+      border: none;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      border-left: 4px solid;
+    }
+    
+    .alert-success-pro {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      color: #166534;
+      border-left-color: var(--success-color);
+    }
+    
+    .alert-warning-pro {
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      color: #92400e;
+      border-left-color: var(--warning-color);
+    }
+    
+    .alert-danger-pro {
+      background: linear-gradient(135deg, #fef2f2, #fecaca);
+      color: #991b1b;
+      border-left-color: var(--danger-color);
+    }
+    
+    .alert-info-pro {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      color: #1e40af;
+      border-left-color: var(--primary-color);
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--gray-200);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .preview-section {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    
+    .table-responsive-pro {
+      border-radius: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .main-container {
+        margin: 1rem;
+        border-radius: 16px;
+      }
+      
+      .header-section {
+        padding: 1.5rem;
+      }
+      
+      .header-title {
+        font-size: 1.5rem;
+      }
+      
+      .content-section {
+        padding: 1.5rem;
+      }
+      
+      .supplier-header-pro {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .supplier-stats {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .qty-input-pro {
+        width: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Professional Header -->
+    <div class="header-section">
+      <div class="header-content">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h1 class="header-title">
+              <i class="bi bi-envelope-at-fill me-3"></i>
+              Email Automation Center
+            </h1>
+            <p class="header-subtitle mb-0">
+              Intelligent supplier communication & automated email dispatch system
+            </p>
+          </div>
+          <div class="d-flex gap-3">
+            <a href="dashboard.html" class="btn-professional btn-outline-pro">
+              <i class="bi bi-arrow-left"></i>
+              Dashboard
+            </a>
+            <a href="reports.html" class="btn-professional btn-outline-pro">
+              <i class="bi bi-file-earmark-spreadsheet"></i>
+              Export Reports
+            </a>
+            <button class="btn-professional btn-outline-pro" onclick="refreshData()">
+              <i class="bi bi-arrow-clockwise"></i>
+              Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <!-- Stock Management Section -->
+      <div class="professional-card">
+        <div class="card-header-professional">
+          <h2 class="card-title-professional">
+            <i class="bi bi-exclamation-triangle-fill" style="color: var(--warning-color);"></i>
+            Low Stock Management & Email Dispatch
+          </h2>
+        </div>
+        <div class="card-body-professional">
+          <div id="stockContent">
+            <div class="text-center py-5">
+              <div class="loading-spinner"></div>
+              <p class="text-muted">Loading stock analysis...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order History -->
+      <div class="professional-card">
+        <div class="card-header-professional">
+          <h2 class="card-title-professional">
+            <i class="bi bi-clock-history" style="color: var(--success-color);"></i>
+            Order History & Communication Log
+          </h2>
+        </div>
+        <div class="card-body-professional">
+          <div id="historyContent">
+            <div class="text-center py-4">
+              <div class="loading-spinner"></div>
+              <p class="text-muted">Loading order history...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const API_BASE = 'http://localhost:5000';
+    let suppliersData = [];
+    let selectedSuppliers = new Set();
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      loadStockData();
+      loadOrderHistory();
+    });
+
+    // Stock Management Functions
+    async function loadStockData() {
+      try {
+        const response = await fetch(`${API_BASE}/api/low-stock`);
+        const suppliers = await response.json();
+        
+        suppliersData = suppliers;
+        renderSuppliers(suppliers);
+        
+      } catch (error) {
+        document.getElementById('stockContent').innerHTML = `
+          <div class="alert-pro alert-danger-pro">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <strong>Error loading stock data:</strong> ${error.message}
+          </div>
+        `;
+      }
+    }
+
+    function renderSuppliers(suppliers) {
+      const container = document.getElementById('stockContent');
+      
+      if (suppliers.length === 0) {
+        container.innerHTML = `
+          <div class="alert-pro alert-success-pro">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>Excellent!</strong> All products are well stocked. No immediate action required.
+          </div>
+        `;
+        return;
+      }
+
+      let html = `
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="d-flex gap-2">
+            <button class="btn-professional btn-outline-pro" onclick="selectAll()">
+              <i class="bi bi-check-all"></i>
+              Select All
+            </button>
+            <button class="btn-professional btn-outline-pro" onclick="selectNone()">
+              <i class="bi bi-x-circle"></i>
+              Clear All
+            </button>
+          </div>
+          <button class="btn-professional btn-success-pro" onclick="sendEmails()" id="sendBtn" disabled>
+            <i class="bi bi-send-fill"></i>
+            Send Selected Emails
+          </button>
+        </div>
+        
+        <div class="alert-pro alert-info-pro">
+          <i class="bi bi-info-circle-fill me-2"></i>
+          <strong>Instructions:</strong> Select suppliers, customize quantities and messages, then send professional email notifications.
+        </div>
+      `;
+
+      suppliers.forEach((supplier, index) => {
+        const totalItems = supplier.products.reduce((sum, p) => sum + p.required_quantity, 0);
+        
+        html += `
+          <div class="supplier-card-pro" id="supplier-${index}">
+            <div class="supplier-header-pro">
+              <div class="d-flex align-items-center">
+                <input type="checkbox" class="supplier-checkbox-pro" id="check-${index}" onchange="toggleSupplier(${index})">
+                <div class="supplier-info">
+                  <h6>
+                    <i class="bi bi-building-fill me-2"></i>
+                    ${supplier.supplier_name}
+                  </h6>
+                  <div class="supplier-email">${supplier.supplier_email}</div>
+                </div>
+              </div>
+              <div class="supplier-stats">
+                <span class="stat-badge">${supplier.products.length} products</span>
+                <small class="text-muted" id="total-units-${index}">${totalItems} total units</small>
+              </div>
+            </div>
+            
+            <div class="custom-message-section">
+              <label class="form-label fw-bold mb-2">
+                <i class="bi bi-chat-text-fill me-2"></i>
+                Custom Message & Special Instructions
+              </label>
+              <textarea class="form-control-pro" rows="3" onchange="updateMessage(${index}, this.value)" 
+                        placeholder="Add delivery preferences, urgency notes, payment terms, or special requirements...">${supplier.custom_message || ''}</textarea>
+            </div>
+            
+            <div class="table-responsive-pro">
+              <table class="table table-hover table-pro">
+                <thead>
+                  <tr>
+                    <th><i class="bi bi-upc-scan me-1"></i>Product ID</th>
+                    <th><i class="bi bi-box me-1"></i>Product Name</th>
+                    <th><i class="bi bi-exclamation-diamond me-1"></i>Current Stock</th>
+                    <th><i class="bi bi-shield-check me-1"></i>Min. Required</th>
+                    <th><i class="bi bi-calculator me-1"></i>Required Qty</th>
+                    <th><i class="bi bi-pencil-square me-1"></i>Edit Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        supplier.products.forEach((product, productIndex) => {
+          const stockClass = product.current_stock === 0 ? 'status-critical' : 'status-low';
+          html += `
+            <tr>
+              <td><code class="bg-light px-2 py-1 rounded">${product.product_id}</code></td>
+              <td><strong>${product.product_name}</strong></td>
+              <td><span class="status-badge ${stockClass}">${product.current_stock}</span></td>
+              <td>${product.minimum_stock}</td>
+              <td><span class="required-qty" id="qty_display_${index}_${productIndex}">${product.required_quantity}</span></td>
+              <td>
+                <input 
+                  type="number" 
+                  class="qty-input-pro" 
+                  value="${product.required_quantity}"
+                  min="1"
+                  max="10000"
+                  data-supplier="${index}"
+                  data-product="${productIndex}"
+                  onchange="updateQuantity(${index}, ${productIndex}, this.value)"
+                  oninput="updateQuantity(${index}, ${productIndex}, this.value)"
+                />
+              </td>
+            </tr>
+          `;
+        });
+        
+        html += `
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="preview-section">
+              <h6 class="fw-bold mb-3">
+                <i class="bi bi-envelope-open me-2"></i>
+                Email Preview for ${supplier.supplier_name}
+              </h6>
+              <div class="row">
+                <div class="col-md-6">
+                  <strong>To:</strong> ${supplier.supplier_email}<br>
+                  <strong>Subject:</strong> <span id="preview-subject-${index}">Stock Reorder Request - ${supplier.products.length} Items (${totalItems} units)</span>
+                </div>
+                <div class="col-md-6">
+                  <strong>Products Summary:</strong>
+                  <ul class="mt-2 mb-0" id="preview-products-${index}">
+                    ${supplier.products.map((p, idx) => 
+                      `<li>${p.product_name} - <span id="preview_qty_${index}_${idx}" class="fw-bold text-primary">${p.required_quantity}</span> units</li>`
+                    ).join('')}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+    }
+
+    function updateQuantity(supplierIndex, productIndex, newQuantity) {
+      const qty = Math.max(1, parseInt(newQuantity) || 1);
+      
+      // Update the data
+      suppliersData[supplierIndex].products[productIndex].required_quantity = qty;
+      
+      // Update display elements
+      const displayElement = document.getElementById(`qty_display_${supplierIndex}_${productIndex}`);
+      const previewElement = document.getElementById(`preview_qty_${supplierIndex}_${productIndex}`);
+      
+      if (displayElement) displayElement.textContent = qty;
+      if (previewElement) previewElement.textContent = qty;
+      
+      // Update totals and preview
+      updateSupplierTotals(supplierIndex);
+      updateEmailPreviewSubject(supplierIndex);
+    }
+
+    function updateSupplierTotals(supplierIndex) {
+      const supplier = suppliersData[supplierIndex];
+      const totalItems = supplier.products.reduce((sum, p) => sum + p.required_quantity, 0);
+      
+      // Update total units display
+      const totalElement = document.getElementById(`total-units-${supplierIndex}`);
+      if (totalElement) {
+        totalElement.textContent = `${totalItems} total units`;
+      }
+    }
+
+    function updateEmailPreviewSubject(supplierIndex) {
+      const supplier = suppliersData[supplierIndex];
+      const totalItems = supplier.products.reduce((sum, p) => sum + p.required_quantity, 0);
+      
+      // Update preview subject
+      const subjectElement = document.getElementById(`preview-subject-${supplierIndex}`);
+      if (subjectElement) {
+        subjectElement.textContent = `Stock Reorder Request - ${supplier.products.length} Items (${totalItems} units)`;
+      }
+    }
+
+    function toggleSupplier(index) {
+      const checkbox = document.getElementById(`check-${index}`);
+      const card = document.getElementById(`supplier-${index}`);
+      
+      if (checkbox.checked) {
+        selectedSuppliers.add(index);
+        card.classList.add('selected');
+      } else {
+        selectedSuppliers.delete(index);
+        card.classList.remove('selected');
+      }
+      
+      document.getElementById('sendBtn').disabled = selectedSuppliers.size === 0;
+    }
+
+    function selectAll() {
+      suppliersData.forEach((_, index) => {
+        const checkbox = document.getElementById(`check-${index}`);
+        const card = document.getElementById(`supplier-${index}`);
+        
+        checkbox.checked = true;
+        card.classList.add('selected');
+        selectedSuppliers.add(index);
+      });
+      document.getElementById('sendBtn').disabled = false;
+    }
+
+    function selectNone() {
+      selectedSuppliers.forEach(index => {
+        const checkbox = document.getElementById(`check-${index}`);
+        const card = document.getElementById(`supplier-${index}`);
+        
+        checkbox.checked = false;
+        card.classList.remove('selected');
+      });
+      selectedSuppliers.clear();
+      document.getElementById('sendBtn').disabled = true;
+    }
+
+    function updateMessage(index, message) {
+      suppliersData[index].custom_message = message;
+    }
+
+    async function sendEmails() {
+      if (selectedSuppliers.size === 0) {
+        showAlert('Please select at least one supplier before sending emails.', 'warning');
+        return;
+      }
+      
+      const btn = document.getElementById('sendBtn');
+      const originalText = btn.innerHTML;
+      
+      try {
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+        btn.disabled = true;
+        
+        const selectedData = Array.from(selectedSuppliers).map(index => suppliersData[index]);
+        
+        const response = await fetch(`${API_BASE}/api/send-emails`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ suppliers: selectedData })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          showAlert(`✅ Successfully sent ${result.emails_sent} professional emails to suppliers!`, 'success');
+          selectNone();
+          loadOrderHistory();
+          setTimeout(() => {
+            showAlert('📧 Suppliers will receive detailed order information with your custom messages.', 'info');
+          }, 2000);
+        } else {
+          showAlert(`❌ ${result.message}`, 'danger');
+        }
+        
+      } catch (error) {
+        showAlert('❌ Failed to send emails. Please check your connection and try again.', 'danger');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = selectedSuppliers.size === 0;
+      }
+    }
+
+    // Order History
+    async function loadOrderHistory() {
+      try {
+        const response = await fetch(`${API_BASE}/api/order-history`);
+        const history = await response.json();
+        
+        renderOrderHistory(history);
+        
+      } catch (error) {
+        document.getElementById('historyContent').innerHTML = `
+          <div class="alert-pro alert-danger-pro">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <strong>Error loading order history:</strong> ${error.message}
+          </div>
+        `;
+      }
+    }
+
+    function renderOrderHistory(history) {
+      const container = document.getElementById('historyContent');
+      
+      if (history.length === 0) {
+        container.innerHTML = `
+          <div class="alert-pro alert-info-pro">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <strong>No orders sent yet.</strong> Start by selecting suppliers and sending your first automated email orders.
+          </div>
+        `;
+        return;
+      }
+      
+      let html = `
+        <div class="table-responsive-pro">
+          <table class="table table-hover table-pro">
+            <thead>
+              <tr>
+                <th><i class="bi bi-calendar me-1"></i>Date & Time</th>
+                <th><i class="bi bi-building me-1"></i>Supplier</th>
+                <th><i class="bi bi-envelope me-1"></i>Email Address</th>
+                <th><i class="bi bi-box me-1"></i>Products</th>
+                <th><i class="bi bi-chat-dots me-1"></i>Custom Message</th>
+                <th><i class="bi bi-check-circle me-1"></i>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+      
+      history.forEach(order => {
+        const hasMessage = order.custom_message && order.custom_message.trim();
+        html += `
+          <tr>
+            <td>
+              <div class="fw-bold">${new Date(order.order_date).toLocaleDateString()}</div>
+              <small class="text-muted">${new Date(order.order_date).toLocaleTimeString()}</small>
+            </td>
+            <td><strong>${order.supplier_name}</strong></td>
+            <td><code class="bg-light px-2 py-1 rounded">${order.supplier_email}</code></td>
+            <td><span class="stat-badge">${order.total_products} items</span></td>
+            <td>
+              ${hasMessage ? 
+                `<i class="bi bi-chat-fill text-success" title="${order.custom_message.substring(0, 100)}..."></i>` : 
+                '<i class="bi bi-dash text-muted"></i>'
+              }
+            </td>
+            <td><span class="status-badge" style="background: var(--success-color);">Sent</span></td>
+          </tr>
+        `;
+      });
+      
+      html += `
+            </tbody>
+          </table>
+        </div>
+      `;
+      
+      container.innerHTML = html;
+    }
+
+    function refreshData() {
+      loadStockData();
+      loadOrderHistory();
+      showAlert('🔄 Email automation data refreshed successfully', 'info');
+    }
+
+    function showAlert(message, type) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert-pro alert-${type}-pro position-fixed`;
+      alertDiv.style.cssText = `
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        min-width: 300px;
+        max-width: 500px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      `;
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close ms-2" onclick="this.parentElement.remove()"></button>
+      `;
+      
+      document.body.appendChild(alertDiv);
+      
+      // Auto remove after 5 seconds
+      setTimeout(() => {
+        if (alertDiv.parentNode) {
+          alertDiv.remove();
+        }
+      }, 5000);
+      
+      // Animate in
+      alertDiv.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        alertDiv.style.transition = 'transform 0.3s ease';
+        alertDiv.style.transform = 'translateX(0)';
+      }, 100);
+    }
+  </script>
+</body>
+</html>

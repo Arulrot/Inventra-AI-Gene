@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Inventra AI - Professional Business Intelligence Suite</title>
+    
+    <!-- Enhanced CSS Framework -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
+            --border-color: #e5e7eb;
+            
+            /* Professional Gradients */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            --info-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            
+            /* Advanced Shadows */
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            --border-radius-sm: 6px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-xl: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Enhanced Header */
+        .main-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="1000,100 1000,0 0,100"/></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: -0.02em;
+        }
+
+        .main-subtitle {
+            text-align: center;
+            opacity: 0.95;
+            font-size: 1.2rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Enhanced Card System */
+        .professional-card {
+            background: white;
+            border-radius: var(--border-radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .professional-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .professional-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Premium Metric Cards */
+        .metric-card {
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: var(--border-radius-xl);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .metric-card:hover::before {
+            left: 100%;
+        }
+
+        .metric-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar-card {
+            background: white;
+            border-radius: var(--border-radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Professional Buttons */
+        .professional-btn {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: var(--border-radius-md);
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            text-transform: none;
+            letter-spacing: 0.02em;
+        }
+
+        .professional-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .professional-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            color: white;
+        }
+
+        .professional-btn:hover::before {
+            left: 100%;
+        }
+
+        .professional-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Navigation */
+        .nav-tabs-professional {
+            border: none;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            padding: 0.75rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs-professional .nav-link {
+            border: none;
+            border-radius: var(--border-radius-md);
+            padding: 0.875rem 1.25rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0.25rem;
+            position: relative;
+        }
+
+        .nav-tabs-professional .nav-link.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .nav-tabs-professional .nav-link:hover:not(.active) {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Chat Interface */
+        .chat-container {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            max-height: 500px;
+            overflow-y: auto;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .chat-message {
+            padding: 1.5rem;
+            margin: 1rem;
+            border-radius: var(--border-radius-lg);
+            position: relative;
+            animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chat-message.user {
+            background: var(--primary-gradient);
+            color: white;
+            margin-left: 20%;
+            text-align: right;
+            box-shadow: var(--shadow-md);
+        }
+
+        .chat-message.ai {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: var(--dark-color);
+            margin-right: 20%;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Tables */
+        .table-professional {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: none;
+            margin-bottom: 0;
+        }
+
+        .table-professional thead th {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 1.25rem 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+
+        .table-professional tbody tr {
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .table-professional tbody tr:hover {
+            background: rgba(102, 126, 234, 0.08);
+            transform: scale(1.005);
+        }
+
+        .table-professional tbody td {
+            padding: 1.25rem 1rem;
+            border: none;
+            font-weight: 500;
+            vertical-align: middle;
+        }
+
+        .table-professional tbody tr:not(:last-child) td {
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Status Indicators */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+
+        .status-online {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--success-color);
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Enhanced Loading States */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-content {
+            text-align: center;
+            background: white;
+            padding: 3rem;
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-color);
+            max-width: 400px;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(102, 126, 234, 0.1);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced Form Controls */
+        .form-control {
+            border-radius: var(--border-radius-md);
+            border: 2px solid var(--border-color);
+            padding: 0.875rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: white;
+        }
+
+        /* Enhanced Input Group */
+        .input-group .form-control {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .input-group .btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: none;
+        }
+
+        /* Enhanced Alerts */
+        .alert {
+            border-radius: var(--border-radius-lg);
+            border: none;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+            color: var(--warning-color);
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+            color: var(--danger-color);
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%);
+            color: var(--info-color);
+            border-left: 4px solid var(--info-color);
+        }
+
+        /* Enhanced Page Titles */
+        .page-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Enhanced Badge */
+        .badge {
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--border-radius-sm);
+        }
+
+        /* Quick Stats Enhancement */
+        .quick-stat-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .quick-stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .quick-stat-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .quick-stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-top: 0.25rem;
+        }
+
+        /* Responsive Enhancements */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .professional-card {
+                padding: 1.5rem;
+            }
+            
+            .sidebar-card {
+                margin-bottom: 2rem;
+            }
+            
+            .chat-message.user {
+                margin-left: 5%;
+            }
+            
+            .chat-message.ai {
+                margin-right: 5%;
+            }
+            
+            .nav-tabs-professional {
+                padding: 0.5rem;
+            }
+            
+            .nav-tabs-professional .nav-link {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .professional-card {
+                padding: 1rem;
+            }
+            
+            .metric-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Enhanced Button Variants */
+        .btn-outline-primary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Header -->
+    <header class="main-header">
+        <div class="container">
+            <h1 class="main-title">
+                <i class="fas fa-brain me-3"></i>Inventra AI
+            </h1>
+            <p class="main-subtitle">Professional Business Intelligence Suite powered by Google Gemini</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4">
+        <div class="row g-4">
+            <!-- Enhanced Sidebar -->
+            <div class="col-xl-3 col-lg-4">
+                <div class="sidebar-card">
+                    <div class="sidebar-header">
+                        <i class="fas fa-control"></i>
+                        Analytics Control Center
+                    </div>
+                    
+                    <button id="runAnalysisBtn" class="professional-btn w-100 mb-4">
+                        <span id="analysisSpinner" class="spinner-border spinner-border-sm me-2" style="display: none;"></span>
+                        <i class="fas fa-rocket me-2"></i>Run Advanced Analysis
+                    </button>
+                    
+                    <div class="status-badge status-online mb-4">
+                        <div class="status-pulse"></div>
+                        Inventra AI Gene Online
+                    </div>
+                    
+                    <div id="quickStats" style="display: none;">
+                        <div class="border-top pt-4">
+                            <h6 class="fw-bold mb-3">
+                                <i class="fas fa-tachometer-alt me-2 text-primary"></i>
+                                Performance Overview
+                            </h6>
+                            
+                            <div class="quick-stat-item">
+                                <div class="quick-stat-label">💰 Total Revenue</div>
+                                <div id="quickRevenue" class="quick-stat-value">-</div>
+                            </div>
+                            
+                            <div class="quick-stat-item">
+                                <div class="quick-stat-label">📊 Profit Margin</div>
+                                <div id="quickProfit" class="quick-stat-value">-</div>
+                            </div>
+                            
+                            <div class="quick-stat-item">
+                                <div class="quick-stat-label">🛒 Transactions</div>
+                                <div id="quickTransactions" class="quick-stat-value">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Area -->
+            <div class="col-xl-9 col-lg-8">
+                <!-- Enhanced Welcome Screen -->
+                <div id="welcomeScreen">
+                    <div class="professional-card text-center mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-10 mx-auto">
+                                <h2 class="page-title justify-content-center">
+                                    <i class="fas fa-sparkles text-primary"></i>
+                                    Welcome to Professional Analytics
+                                </h2>
+                                <p class="lead text-muted mb-0">
+                                    Experience next-generation business intelligence with AI-powered insights and traditional machine learning analytics
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="professional-card h-100">
+                                <div class="text-center mb-4">
+                                    <div class="text-primary mb-3">
+                                        <i class="fas fa-chart-line fa-3x"></i>
+                                    </div>
+                                    <h4 class="section-title justify-content-center">Traditional Analytics Engine</h4>
+                                </div>
+                                <ul class="list-unstyled">
+                                    <li class="mb-3 d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                        <span>Advanced Machine Learning Models</span>
+                                    </li>
+                                    <li class="mb-3 d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                        <span>Statistical Analysis & Insights</span>
+                                    </li>
+                                    <li class="mb-3 d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                        <span>Predictive Analytics Engine</span>
+                                    </li>
+                                    <li class="mb-3 d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                        <span>Real-time Chart Generation</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="professional-card h-100">
+                                <div class="text-center mb-4">
+                                    <div class="text-primary mb-3">
+                                        <i class="fas fa-robot fa-3x"></i>
+                                    </div>
+                                    <h4 class="section-title justify-content-center">Inventra AI Gene</h4>
+                                </div>
+                                <ul class="list-unstyled">
+                                    <li class="mb-3 d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                        <span>Powered by Google Gemini 1.5 Flash</span>
+                                    </li>
+                                    <li class="mb-3 d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                        <span>Natural Language Processing</span>
+                                    </li>
+                                    <li class="mb-3 d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                        <span>Business Intelligence Insights</span>
+                                    </li>
+                                    <li class="mb-3 d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                        <span>Context-Aware Intelligence</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="professional-card mt-4">
+                        <div class="alert alert-info border-0 d-flex align-items-center">
+                            <i class="fas fa-info-circle fa-2x me-3 text-primary"></i>
+                            <div>
+                                <h5 class="mb-1 fw-bold">Ready to Get Started?</h5>
+                                <p class="mb-0">Click 'Run Advanced Analysis' in the control center to begin your journey with AI-powered business intelligence.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Dashboard Content -->
+                <div id="dashboardContent" style="display: none;">
+                    <!-- Enhanced Navigation -->
+                    <ul class="nav nav-tabs nav-tabs-professional" id="mainTabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>Executive Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#analysis">
+                                <i class="fas fa-chart-bar me-2"></i>Deep Analysis
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#charts">
+                                <i class="fas fa-chart-pie me-2"></i>Visualizations
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#recommendations">
+                                <i class="fas fa-lightbulb me-2"></i>Strategic Insights
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#inventra">
+                                <i class="fas fa-robot me-2"></i>Inventra AI Gene
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- Enhanced Dashboard Tab -->
+                        <div class="tab-pane fade show active" id="dashboard">
+                            <h3 class="page-title">
+                                <i class="fas fa-chart-pie text-primary"></i>
+                                Executive Business Dashboard
+                            </h3>
+                            
+                            <!-- Enhanced Metrics Grid -->
+                            <div class="row g-4 mb-5">
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="metric-card">
+                                        <i class="fas fa-dollar-sign metric-icon"></i>
+                                        <div class="metric-value" id="dashRevenue">-</div>
+                                        <div class="metric-label">Total Revenue</div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="metric-card" style="background: var(--success-gradient);">
+                                        <i class="fas fa-chart-line metric-icon"></i>
+                                        <div class="metric-value" id="dashProfit">-</div>
+                                        <div class="metric-label">Net Profit</div>
+                                        <small id="dashProfitMargin" style="opacity: 0.9;">-</small>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="metric-card" style="background: var(--warning-gradient);">
+                                        <i class="fas fa-shopping-cart metric-icon"></i>
+                                        <div class="metric-value" id="dashOrders">-</div>
+                                        <div class="metric-label">Total Orders</div>
+                                        <small id="dashAvgOrder" style="opacity: 0.9;">-</small>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="metric-card" style="background: var(--info-gradient);">
+                                        <i class="fas fa-users metric-icon"></i>
+                                        <div class="metric-value" id="dashCustomers">-</div>
+                                        <div class="metric-label">Active Customers</div>
+                                        <small id="dashProducts" style="opacity: 0.9;">-</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Summary Cards -->
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="professional-card">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-calendar-alt text-primary fa-2x me-3"></i>
+                                            <div>
+                                                <h5 class="section-title mb-0">Analysis Period</h5>
+                                                <p class="text-muted mb-0 small">Business reporting timeframe</p>
+                                            </div>
+                                        </div>
+                                        <h4 id="analysisDateRange" class="text-primary fw-bold">-</h4>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="professional-card">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-trophy text-warning fa-2x me-3"></i>
+                                            <div>
+                                                <h5 class="section-title mb-0">Peak Performance</h5>
+                                                <p class="text-muted mb-0 small">Highest single transaction value</p>
+                                            </div>
+                                        </div>
+                                        <h4 id="maxSaleAmount" class="text-warning fw-bold">-</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Analysis Tab -->
+                        <div class="tab-pane fade" id="analysis">
+                            <h3 class="page-title">
+                                <i class="fas fa-microscope text-primary"></i>
+                                Comprehensive Business Analysis
+                            </h3>
+                            
+                            <!-- Enhanced Top Products -->
+                            <div class="professional-card mb-4">
+                                <h4 class="section-title">
+                                    <i class="fas fa-medal text-warning"></i>
+                                    Top Performing Products
+                                </h4>
+                                <div class="table-responsive">
+                                    <table class="table table-professional">
+                                        <thead>
+                                            <tr>
+                                                <th><i class="fas fa-box me-2"></i>Product</th>
+                                                <th><i class="fas fa-rupee-sign me-2"></i>Revenue</th>
+                                                <th><i class="fas fa-receipt me-2"></i>Transactions</th>
+                                                <th><i class="fas fa-tag me-2"></i>Avg Price</th>
+                                                <th><i class="fas fa-cubes me-2"></i>Units Sold</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="topProductsTable"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Analysis Grid -->
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="professional-card h-100">
+                                        <h5 class="section-title">
+                                            <i class="fas fa-tags text-info"></i>
+                                            Category Performance
+                                        </h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-professional table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Revenue</th>
+                                                        <th>Volume</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="categoriesTable"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <div class="professional-card h-100">
+                                        <h5 class="section-title">
+                                            <i class="fas fa-warehouse text-danger"></i>
+                                            Inventory Intelligence
+                                        </h5>
+                                        <div id="inventoryIssues"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Predictions & Risk Assessment -->
+                            <div class="row g-4 mt-2">
+                                <div class="col-lg-6">
+                                    <div class="professional-card h-100">
+                                        <h5 class="section-title">
+                                            <i class="fas fa-crystal-ball text-primary"></i>
+                                            Predictive Analytics
+                                        </h5>
+                                        <div id="predictions"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <div class="professional-card h-100">
+                                        <h5 class="section-title">
+                                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                                            Risk Assessment
+                                        </h5>
+                                        <div id="expiringProducts"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Charts Tab -->
+                        <div class="tab-pane fade" id="charts">
+                            <h3 class="page-title">
+                                <i class="fas fa-chart-area text-primary"></i>
+                                Advanced Data Visualization
+                            </h3>
+                            
+                            <div class="professional-card mb-4">
+                                <h4 class="section-title">
+                                    <i class="fas fa-chart-line text-primary me-2"></i>
+                                    Revenue Trend Analysis
+                                </h4>
+                                <div id="monthlyTrendChart"></div>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="professional-card h-100">
+                                        <h5 class="section-title">
+                                            <i class="fas fa-trophy text-warning me-2"></i>
+                                            Product Performance
+                                        </h5>
+                                        <div id="topProductsChart"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="professional-card h-100">
+                                        <h5 class="section-title">
+                                            <i class="fas fa-chart-pie text-info me-2"></i>
+                                            Category Distribution
+                                        </h5>
+                                        <div id="categoryChart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="professional-card mt-4">
+                                <h5 class="section-title">
+                                    <i class="fas fa-calendar-week text-success me-2"></i>
+                                    Weekly Performance Pattern
+                                </h5>
+                                <div id="weeklyPatternChart"></div>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Recommendations Tab -->
+                        <div class="tab-pane fade" id="recommendations">
+                            <h3 class="page-title">
+                                <i class="fas fa-lightbulb text-primary"></i>
+                                Strategic Business Recommendations
+                            </h3>
+                            
+                            <!-- Enhanced Priority Overview -->
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-4">
+                                    <div class="metric-card" style="background: var(--danger-gradient);">
+                                        <i class="fas fa-exclamation-circle metric-icon"></i>
+                                        <div class="metric-value" id="highPriorityCount">-</div>
+                                        <div class="metric-label">High Priority Actions</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="metric-card" style="background: var(--warning-gradient);">
+                                        <i class="fas fa-clock metric-icon"></i>
+                                        <div class="metric-value" id="mediumPriorityCount">-</div>
+                                        <div class="metric-label">Medium Priority Actions</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="metric-card" style="background: var(--success-gradient);">
+                                        <i class="fas fa-tasks metric-icon"></i>
+                                        <div class="metric-value" id="totalActionsCount">-</div>
+                                        <div class="metric-label">Total Recommendations</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="recommendationsList"></div>
+                        </div>
+
+                        <!-- Enhanced Inventra AI Tab -->
+                        <div class="tab-pane fade" id="inventra">
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h3 class="page-title">
+                                        <i class="fas fa-robot text-primary"></i>
+                                        Inventra AI Gene
+                                        <span class="badge bg-success ms-3">Powered by Google Gemini 1.5 Flash</span>
+                                    </h3>
+                                </div>
+                            </div>
+                            
+                            <!-- Enhanced AI Introduction -->
+                            <div class="professional-card mb-4">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h4 class="section-title">
+                                            <i class="fas fa-brain text-primary"></i>
+                                            Advanced Business Intelligence Assistant
+                                        </h4>
+                                        <p class="mb-0 text-muted">
+                                            Ask sophisticated questions about your business data using natural language. 
+                                            Inventra AI Gene provides executive-level insights with comprehensive analysis and strategic recommendations.
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <div class="status-badge status-online">
+                                            <div class="status-pulse"></div>
+                                            AI System Active & Ready
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Suggested Questions -->
+                            <div class="professional-card mb-4">
+                                <h5 class="section-title">
+                                    <i class="fas fa-magic text-primary"></i>
+                                    Executive Query Templates
+                                </h5>
+                                <div class="row g-3">
+                                    <div class="col-lg-4">
+                                        <button class="btn btn-outline-primary w-100 suggested-question" data-question="What is the maximum sale date in my data?">
+                                            <i class="fas fa-calendar me-2"></i>
+                                            Peak Sales Date Analysis
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn btn-outline-primary w-100 suggested-question" data-question="What's my total revenue and profit analysis?">
+                                            <i class="fas fa-chart-line me-2"></i>
+                                            Financial Performance Review
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn btn-outline-primary w-100 suggested-question" data-question="What are my top 5 selling products with detailed insights?">
+                                            <i class="fas fa-trophy me-2"></i>
+                                            Top Products Analysis
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn btn-outline-primary w-100 suggested-question" data-question="Which products are expiring soon and need attention?">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            Risk Management Alert
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn btn-outline-primary w-100 suggested-question" data-question="Which products need urgent restocking with recommendations?">
+                                            <i class="fas fa-boxes me-2"></i>
+                                            Inventory Optimization
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn btn-outline-primary w-100 suggested-question" data-question="Provide comprehensive customer segments analysis?">
+                                            <i class="fas fa-users me-2"></i>
+                                            Customer Intelligence Report
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Chat Interface -->
+                            <div class="professional-card">
+                                <h5 class="section-title">
+                                    <i class="fas fa-comments text-primary"></i>
+                                    AI Conversation Interface
+                                </h5>
+                                
+                                <div class="chat-container mb-4" id="chatContainer">
+                                    <div class="text-center p-5 text-muted">
+                                        <i class="fas fa-robot fa-4x mb-3 text-primary"></i>
+                                        <h5 class="fw-bold">Inventra AI Gene Ready for Executive Queries</h5>
+                                        <p>Start an intelligent conversation by asking a question or selecting a template above.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Enhanced Input Interface -->
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-lg" id="chatInput" 
+                                           placeholder="Ask an executive-level question about your business data...">
+                                    <button class="btn btn-primary btn-lg" type="button" id="sendChatBtn">
+                                        <span id="chatSpinner" class="spinner-border spinner-border-sm me-2" style="display: none;"></span>
+                                        <i class="fas fa-paper-plane me-2"></i>
+                                        Send Query
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h4 class="fw-bold mb-2">Processing Advanced Analytics</h4>
+            <p class="text-muted">Inventra AI Gene is analyzing your business data with machine learning algorithms...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Keep the same JavaScript functionality as before - no changes needed
+        // [Previous JavaScript code remains exactly the same]
+        
+        // Application State
+        let analysisComplete = false;
+        let chatHistory = [];
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Analysis button
+            document.getElementById('runAnalysisBtn').addEventListener('click', runAnalysis);
+            
+            // Tab changes
+            document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function(e) {
+                    handleTabChange(e.target.getAttribute('href'));
+                });
+            });
+            
+            // Chat functionality
+            document.getElementById('sendChatBtn').addEventListener('click', sendChatMessage);
+            document.getElementById('chatInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+            
+            // Suggested questions
+            document.querySelectorAll('.suggested-question').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    document.getElementById('chatInput').value = question;
+                    sendChatMessage();
+                });
+            });
+        }
+
+        async function runAnalysis() {
+            const btn = document.getElementById('runAnalysisBtn');
+            const spinner = document.getElementById('analysisSpinner');
+            const overlay = document.getElementById('loadingOverlay');
+            
+            try {
+                showLoading(true, btn, spinner, overlay);
+                
+                const response = await fetch('/run_analysis', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    updateQuickStats(result.quick_stats);
+                    showDashboard();
+                    loadDashboardData();
+                    showNotification('Analysis Complete!', 'success');
+                } else {
+                    showNotification('Analysis failed: ' + result.error, 'error');
+                }
+                
+            } catch (error) {
+                showNotification('Failed to run analysis: ' + error.message, 'error');
+            } finally {
+                showLoading(false, btn, spinner, overlay);
+            }
+        }
+
+        function updateQuickStats(stats) {
+            if (stats) {
+                document.getElementById('quickRevenue').textContent = stats.revenue;
+                document.getElementById('quickProfit').textContent = stats.profit;
+                document.getElementById('quickTransactions').textContent = stats.transactions;
+                document.getElementById('quickStats').style.display = 'block';
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'block';
+            analysisComplete = true;
+        }
+
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/get_dashboard_data');
+                const data = await response.json();
+                
+                if (data.error) {
+                    showNotification(data.error, 'error');
+                    return;
+                }
+                
+                document.getElementById('dashRevenue').textContent = data.revenue;
+                document.getElementById('dashProfit').textContent = data.profit;
+                document.getElementById('dashProfitMargin').textContent = data.profit_margin;
+                document.getElementById('dashOrders').textContent = data.orders;
+                document.getElementById('dashAvgOrder').textContent = data.avg_order;
+                document.getElementById('dashCustomers').textContent = data.customers;
+                document.getElementById('dashProducts').textContent = data.products + ' products';
+                document.getElementById('analysisDateRange').textContent = data.min_date + ' to ' + data.max_date;
+                document.getElementById('maxSaleAmount').textContent = data.max_sale;
+                
+            } catch (error) {
+                showNotification('Failed to load dashboard: ' + error.message, 'error');
+            }
+        }
+
+        async function loadDetailedAnalysis() {
+            try {
+                const response = await fetch('/get_detailed_analysis');
+                const data = await response.json();
+                
+                if (data.error) {
+                    showNotification(data.error, 'error');
+                    return;
+                }
+                
+                // Update tables and content
+                updateTopProductsTable(data.top_products);
+                updateCategoriesTable(data.categories);
+                updateInventoryIssues(data.inventory);
+                updatePredictions(data.forecast);
+                updateExpiringProducts(data.expiring);
+                
+            } catch (error) {
+                showNotification('Failed to load analysis: ' + error.message, 'error');
+            }
+        }
+
+        function updateTopProductsTable(products) {
+            const table = document.getElementById('topProductsTable');
+            table.innerHTML = '';
+            products.forEach(product => {
+                const row = `
+                    <tr>
+                        <td><strong>${product.product}</strong></td>
+                        <td><span class="text-success fw-bold">${product.revenue}</span></td>
+                        <td><span class="badge bg-primary">${product.transactions}</span></td>
+                        <td>${product.avg_price}</td>
+                        <td><span class="text-info fw-bold">${product.units_sold}</span></td>
+                    </tr>
+                `;
+                table.innerHTML += row;
+            });
+        }
+
+        function updateCategoriesTable(categories) {
+            const table = document.getElementById('categoriesTable');
+            table.innerHTML = '';
+            categories.forEach(category => {
+                const row = `
+                    <tr>
+                        <td><strong>${category.category}</strong></td>
+                        <td><span class="text-success fw-bold">${category.amount}</span></td>
+                        <td><span class="badge bg-info">${category.quantity}</span></td>
+                    </tr>
+                `;
+                table.innerHTML += row;
+            });
+        }
+
+        function updateInventoryIssues(inventory) {
+            const container = document.getElementById('inventoryIssues');
+            let html = '';
+            
+            if (inventory.understocked_count > 0) {
+                html += `
+                    <div class="alert alert-danger">
+                        <h6 class="fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>${inventory.understocked_count} Understocked Products</h6>
+                        ${inventory.understocked.map(p => `<div class="mb-1">• <strong>${p}</strong></div>`).join('')}
+                    </div>
+                `;
+            } else {
+                html += '<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i><strong>No understocked products</strong></div>';
+            }
+            
+            if (inventory.overstocked_count > 0) {
+                html += `
+                    <div class="alert alert-warning">
+                        <h6 class="fw-bold"><i class="fas fa-boxes me-2"></i>${inventory.overstocked_count} Overstocked Products</h6>
+                        ${inventory.overstocked.map(p => `<div class="mb-1">• <strong>${p}</strong></div>`).join('')}
+                    </div>
+                `;
+            } else {
+                html += '<div class="alert alert-info"><i class="fas fa-check-circle me-2"></i><strong>No overstocked products</strong></div>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function updatePredictions(forecast) {
+            const container = document.getElementById('predictions');
+            container.innerHTML = `
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="text-center p-3" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1)); border-radius: 12px;">
+                            <h6 class="fw-bold text-primary">30-Day Forecast</h6>
+                            <h4 class="text-primary fw-bold">${forecast.total}</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-center p-3" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); border-radius: 12px;">
+                            <h6 class="fw-bold text-success">Daily Average</h6>
+                            <h4 class="text-success fw-bold">${forecast.daily_avg}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3 p-3" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1)); border-radius: 12px;">
+                    <h6 class="fw-bold">Trend Direction</h6>
+                    <h5 class="text-${forecast.trend === 'increasing' ? 'success' : 'warning'} fw-bold">
+                        <i class="fas fa-${forecast.trend === 'increasing' ? 'arrow-trend-up' : 'arrow-trend-down'} me-2"></i>
+                        ${forecast.trend.toUpperCase()}
+                    </h5>
+                </div>
+            `;
+        }
+
+        function updateExpiringProducts(expiring) {
+            const container = document.getElementById('expiringProducts');
+            if (expiring.length > 0) {
+                let html = `<div class="alert alert-warning">
+                    <h6 class="fw-bold"><i class="fas fa-clock me-2"></i>${expiring.length} products expiring within 30 days</h6>`;
+                expiring.forEach(item => {
+                    html += `<div class="mb-1">• <strong>${item.product}</strong>: <span class="badge bg-warning text-dark">${item.count} units</span></div>`;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i><strong>No products expiring soon</strong></div>';
+            }
+        }
+
+        async function loadChartsData() {
+            try {
+                const response = await fetch('/get_charts_data');
+                const data = await response.json();
+                
+                if (data.error) {
+                    showNotification(data.error, 'error');
+                    return;
+                }
+                
+                createCharts(data);
+                
+            } catch (error) {
+                showNotification('Failed to load charts: ' + error.message, 'error');
+            }
+        }
+
+        function createCharts(data) {
+            // Monthly trend
+            if (data.monthly_trend) {
+                const trace = {
+                    x: data.monthly_trend.months,
+                    y: data.monthly_trend.values,
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    line: {color: '#667eea', width: 4},
+                    marker: {size: 8, color: '#667eea'}
+                };
+                Plotly.newPlot('monthlyTrendChart', [trace], {
+                    title: {
+                        text: 'Monthly Revenue Trend',
+                        font: {size: 16, family: 'Inter'}
+                    },
+                    height: 400,
+                    plot_bgcolor: 'transparent',
+                    paper_bgcolor: 'transparent'
+                });
+            }
+            
+            // Top products
+            if (data.top_products) {
+                const trace = {
+                    x: data.top_products.revenues,
+                    y: data.top_products.products,
+                    type: 'bar',
+                    orientation: 'h',
+                    marker: {color: '#10b981'}
+                };
+                Plotly.newPlot('topProductsChart', [trace], {
+                    title: {
+                        text: 'Top Products by Revenue',
+                        font: {size: 14, family: 'Inter'}
+                    },
+                    height: 400,
+                    plot_bgcolor: 'transparent',
+                    paper_bgcolor: 'transparent'
+                });
+            }
+            
+            // Categories
+            if (data.categories) {
+                const trace = {
+                    values: data.categories.values,
+                    labels: data.categories.names,
+                    type: 'pie',
+                    textinfo: 'label+percent',
+                    textposition: 'outside'
+                };
+                Plotly.newPlot('categoryChart', [trace], {
+                    title: {
+                        text: 'Revenue by Category',
+                        font: {size: 14, family: 'Inter'}
+                    },
+                    height: 400,
+                    plot_bgcolor: 'transparent',
+                    paper_bgcolor: 'transparent'
+                });
+            }
+            
+            // Weekly pattern
+            if (data.weekly_pattern) {
+                const trace = {
+                    x: data.weekly_pattern.days,
+                    y: data.weekly_pattern.amounts,
+                    type: 'bar',
+                    marker: {color: '#f59e0b'}
+                };
+                Plotly.newPlot('weeklyPatternChart', [trace], {
+                    title: {
+                        text: 'Weekly Sales Pattern',
+                        font: {size: 14, family: 'Inter'}
+                    },
+                    height: 400,
+                    plot_bgcolor: 'transparent',
+                    paper_bgcolor: 'transparent'
+                });
+            }
+        }
+
+        async function loadRecommendations() {
+            try {
+                const response = await fetch('/get_recommendations');
+                const data = await response.json();
+                
+                if (data.error) {
+                    showNotification(data.error, 'error');
+                    return;
+                }
+                
+                document.getElementById('highPriorityCount').textContent = data.priority_summary.high_priority;
+                document.getElementById('mediumPriorityCount').textContent = data.priority_summary.medium_priority;
+                document.getElementById('totalActionsCount').textContent = data.priority_summary.total_actions;
+                
+                displayRecommendations(data.recommendations);
+                
+            } catch (error) {
+                showNotification('Failed to load recommendations: ' + error.message, 'error');
+            }
+        }
+
+        function displayRecommendations(recommendations) {
+            const container = document.getElementById('recommendationsList');
+            let html = '';
+            
+            const highPriority = recommendations.filter(r => r.priority === 'High');
+            const mediumPriority = recommendations.filter(r => r.priority === 'Medium');
+            
+            if (highPriority.length > 0) {
+                html += '<h4 class="section-title text-danger mb-4"><i class="fas fa-exclamation-circle"></i>High Priority Strategic Actions</h4>';
+                highPriority.forEach(rec => {
+                    html += `
+                        <div class="professional-card mb-4" style="border-left: 4px solid var(--danger-color);">
+                            <h5 class="fw-bold"><i class="fas fa-bullseye me-2 text-danger"></i>${rec.title}</h5>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p><strong>Type:</strong> <span class="badge bg-danger">${rec.type}</span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Priority:</strong> <span class="badge bg-danger">High</span></p>
+                                </div>
+                            </div>
+                            <p class="text-muted">${rec.description}</p>
+                            <div class="mb-3">
+                                <strong>Recommended Actions:</strong>
+                                <ul class="mt-2">${rec.actions.map(action => `<li class="mb-1">${action}</li>`).join('')}</ul>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Expected Impact:</strong> <span class="text-success">${rec.expected_impact}</span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Implementation Timeline:</strong> <span class="text-info">${rec.timeline}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            if (mediumPriority.length > 0) {
+                html += '<h4 class="section-title text-warning mb-4 mt-5"><i class="fas fa-list-check"></i>Medium Priority Strategic Actions</h4>';
+                mediumPriority.forEach(rec => {
+                    html += `
+                        <div class="professional-card mb-4" style="border-left: 4px solid var(--warning-color);">
+                            <h5 class="fw-bold"><i class="fas fa-chart-line me-2 text-warning"></i>${rec.title}</h5>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p><strong>Type:</strong> <span class="badge bg-warning text-dark">${rec.type}</span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Priority:</strong> <span class="badge bg-warning text-dark">Medium</span></p>
+                                </div>
+                            </div>
+                            <p class="text-muted">${rec.description}</p>
+                            <div class="mb-3">
+                                <strong>Recommended Actions:</strong>
+                                <ul class="mt-2">${rec.actions.map(action => `<li class="mb-1">${action}</li>`).join('')}</ul>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Expected Impact:</strong> <span class="text-success">${rec.expected_impact}</span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Implementation Timeline:</strong> <span class="text-info">${rec.timeline}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            container.innerHTML = html;
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            const sendBtn = document.getElementById('sendChatBtn');
+            const spinner = document.getElementById('chatSpinner');
+            
+            try {
+                sendBtn.disabled = true;
+                spinner.style.display = 'inline-block';
+                
+                addChatMessage(question, true);
+                input.value = '';
+                
+                const response = await fetch('/chat_with_inventra_ai', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: question })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    addChatMessage(result.answer, false);
+                } else {
+                    addChatMessage('Error: ' + result.error, false);
+                }
+                
+            } catch (error) {
+                addChatMessage('Failed to get response: ' + error.message, false);
+            } finally {
+                sendBtn.disabled = false;
+                spinner.style.display = 'none';
+            }
+        }
+
+        function addChatMessage(message, isUser) {
+            const container = document.getElementById('chatContainer');
+            
+            // Remove welcome message
+            const welcome = container.querySelector('.text-center.p-5');
+            if (welcome) welcome.remove();
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.innerHTML = `
+                <div class="d-flex align-items-start">
+                    <div class="me-2">
+                        <i class="fas fa-${isUser ? 'user' : 'robot'} fa-lg"></i>
+                    </div>
+                    <div>
+                        <strong>${isUser ? 'You' : 'Inventra AI Gene'}:</strong>
+                        <div class="mt-1">${message}</div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function handleTabChange(tabId) {
+            if (!analysisComplete) return;
+            
+            switch(tabId) {
+                case '#dashboard':
+                    loadDashboardData();
+                    break;
+                case '#analysis':
+                    loadDetailedAnalysis();
+                    break;
+                case '#charts':
+                    loadChartsData();
+                    break;
+                case '#recommendations':
+                    loadRecommendations();
+                    break;
+            }
+        }
+
+        function showLoading(show, btn, spinner, overlay) {
+            btn.disabled = show;
+            spinner.style.display = show ? 'inline-block' : 'none';
+            overlay.style.display = show ? 'flex' : 'none';
+        }
+
+        function showNotification(message, type) {
+            console.log(`${type.toUpperCase()}: ${message}`);
+            if (type === 'error') {
+                alert('Error: ' + message);
+            }
+        }
+    </script>
+</body>
+</html>
